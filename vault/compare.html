@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en" data-partner="nxtinsure">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Plans — NxtInsure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #7C6EF5;
+  --brand-rgb: 124,110,245;
+  --brand-light: rgba(124,110,245,0.12);
+  --brand-text: #ffffff;
+  --bg: #0A0A0A;
+  --surface: #141414;
+  --surface-el: #1E1E1E;
+  --ink: #F5F5F4;
+  --ink-muted: #A8A29E;
+  --border: #2A2A2A;
+  --success: #34D399;
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --radius-input: 12px;
+  --shadow-card: 0 0 0 1px rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.4);
+  --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+[data-partner="airtel"] { --brand:#FF3040;--brand-rgb:255,48,64;--brand-light:rgba(255,48,64,0.12);--brand-text:#ffffff; }
+[data-partner="ecobank"] { --brand:#00C880;--brand-rgb:0,200,128;--brand-light:rgba(0,200,128,0.12);--brand-text:#0A0A0A; }
+
+*,*::before,*::after { box-sizing:border-box;margin:0;padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden; }
+a { text-decoration:none;color:inherit; }
+button { cursor:pointer;font-family:'Inter',sans-serif;border:none; }
+
+/* NAV */
+.nav { position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px; }
+.nav-inner { max-width:1200px;margin:0 auto;height:64px;display:flex;align-items:center;gap:24px; }
+.logo { font-family:'Inter',sans-serif;font-weight:700;font-size:20px;color:var(--ink);flex-shrink:0;display:flex;align-items:center;gap:6px; }
+.logo span { color:var(--brand); }
+.logo-dot { width:6px;height:6px;border-radius:50%;background:var(--brand);box-shadow:0 0 8px rgba(var(--brand-rgb),0.8); }
+.nav-theme { display:flex;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-pill);padding:3px;gap:2px; }
+.nav-theme button { background:none;border:none;color:var(--ink-muted);font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--radius-pill);transition:var(--transition);letter-spacing:0.02em; }
+.nav-theme button.active { background:var(--brand);color:var(--brand-text); }
+.nav-spacer { flex:1; }
+.back-link { display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-muted);padding:6px 12px;border-radius:8px;transition:var(--transition); }
+.back-link:hover { color:var(--ink);background:var(--surface); }
+
+/* PAGE HEADER */
+.page-header { max-width:1200px;margin:0 auto;padding:48px 24px 32px; }
+.section-label { font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--brand);margin-bottom:8px; }
+.page-title { font-family:'Playfair Display',serif;font-size:clamp(32px,5vw,52px);font-weight:700;color:var(--ink);margin-bottom:12px;line-height:1.1; }
+.page-sub { font-size:15px;color:var(--ink-muted);max-width:520px; }
+
+/* PLAN SELECTOR */
+.plan-selector { max-width:1200px;margin:0 auto;padding:0 24px 32px; }
+.selector-label { font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);margin-bottom:12px; }
+.selector-chips { display:flex;flex-wrap:wrap;gap:10px; }
+.sel-chip {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-pill);
+  padding:8px 16px;
+  font-size:13px;
+  font-weight:500;
+  color:var(--ink-muted);
+  cursor:pointer;
+  transition:var(--transition);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.sel-chip:hover { border-color:rgba(var(--brand-rgb),0.4);color:var(--ink); }
+.sel-chip.active {
+  border-color:var(--brand);
+  color:var(--brand);
+  background:var(--brand-light);
+  box-shadow:0 0 16px rgba(var(--brand-rgb),0.15);
+}
+.sel-chip .chip-dot { width:8px;height:8px;border-radius:50%; }
+.sel-chip .chip-remove { width:16px;height:16px;border-radius:50%;background:rgba(var(--brand-rgb),0.2);display:flex;align-items:center;justify-content:center;font-size:10px; }
+
+/* RECOMMENDATION CARD */
+.rec-card {
+  max-width:1200px;
+  margin:0 auto 32px;
+  padding:0 24px;
+}
+.rec-inner {
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(var(--brand-rgb),0.25);
+  border-radius:var(--radius-card);
+  padding:24px 28px;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  box-shadow:0 0 0 1px rgba(var(--brand-rgb),0.08), 0 8px 32px rgba(0,0,0,0.4);
+}
+.rec-icon { width:52px;height:52px;border-radius:14px;background:var(--brand-light);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.rec-text { flex:1; }
+.rec-eyebrow { font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--brand);margin-bottom:4px; }
+.rec-title { font-size:16px;font-weight:600;color:var(--ink);margin-bottom:2px; }
+.rec-desc { font-size:13px;color:var(--ink-muted); }
+.rec-cta { background:var(--brand);color:var(--brand-text);padding:10px 20px;border-radius:var(--radius-pill);font-size:13px;font-weight:600;box-shadow:0 0 16px rgba(var(--brand-rgb),0.3);transition:var(--transition);white-space:nowrap;flex-shrink:0; }
+.rec-cta:hover { box-shadow:0 0 28px rgba(var(--brand-rgb),0.5); }
+
+/* COMPARE TABLE */
+.compare-wrap { max-width:1200px;margin:0 auto;padding:0 24px 80px;overflow-x:auto; }
+.compare-table { width:100%;border-collapse:separate;border-spacing:0;min-width:680px; }
+
+/* COLUMN HEADERS */
+.col-attr { width:220px;min-width:180px; }
+.col-plan { min-width:200px; }
+
+/* Sticky first column */
+.compare-table .attr-cell {
+  position:sticky;
+  left:0;
+  background:var(--bg);
+  z-index:10;
+  border-right:1px solid var(--border);
+}
+
+/* Row groups */
+.group-header td {
+  padding:24px 20px 10px;
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color:var(--brand);
+  border-bottom:1px solid var(--border);
+}
+.group-header .attr-cell { background:var(--bg); }
+
+/* Plan header row */
+.plan-header-row td { padding:0; vertical-align:top; }
+.plan-header-row .attr-cell { padding:20px; }
+
+.plan-header-cell {
+  padding:20px 16px;
+  vertical-align:top;
+  border-bottom:1px solid var(--border);
+}
+.plan-header-cell.recommended {
+  background:rgba(var(--brand-rgb),0.05);
+  border-left:1px solid rgba(var(--brand-rgb),0.2);
+  border-right:1px solid rgba(var(--brand-rgb),0.2);
+  position:relative;
+}
+.plan-header-cell.recommended::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg, transparent, var(--brand), transparent);
+}
+.recommend-pill {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  background:var(--brand);
+  color:var(--brand-text);
+  border-radius:var(--radius-pill);
+  padding:3px 10px;
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  margin-bottom:10px;
+}
+.plan-logo { width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;margin-bottom:10px; }
+.plan-name-cell { font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.2; }
+.plan-insurer-cell { font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px; }
+.plan-badge-cell { display:inline-flex;align-items:center;background:var(--surface-el);border:1px solid var(--border);border-radius:var(--radius-pill);padding:3px 10px;font-size:10px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.04em; }
+
+/* Data rows */
+.data-row td {
+  padding:14px 16px;
+  font-size:13px;
+  color:var(--ink-muted);
+  border-bottom:1px solid rgba(42,42,42,0.5);
+  vertical-align:middle;
+}
+.data-row:hover td { background:rgba(255,255,255,0.015); }
+.data-row .attr-cell {
+  font-size:12px;
+  font-weight:500;
+  color:var(--ink-muted);
+  background:var(--bg);
+}
+.data-row .attr-cell:hover { background:rgba(255,255,255,0.01); }
+.data-row td.recommended {
+  background:rgba(var(--brand-rgb),0.04);
+  border-left:1px solid rgba(var(--brand-rgb),0.15);
+  border-right:1px solid rgba(var(--brand-rgb),0.15);
+  color:var(--ink);
+  font-weight:500;
+}
+.data-row:hover td.recommended { background:rgba(var(--brand-rgb),0.07); }
+
+/* Check / Cross */
+.check { color:var(--success);font-size:16px; }
+.cross { color:#666;font-size:14px; }
+.val-highlight { color:var(--brand);font-weight:600; }
+
+/* Score mini bar */
+.mini-score { display:flex;align-items:center;gap:8px; }
+.mini-bar-wrap { flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden;min-width:60px; }
+.mini-bar { height:100%;background:var(--brand);border-radius:2px; }
+.mini-val { font-size:12px;color:var(--ink-muted);white-space:nowrap; }
+
+/* Price cell */
+.price-cell { font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink); }
+.price-cell .per { font-family:'Inter',sans-serif;font-size:11px;color:var(--ink-muted);font-weight:400; }
+.price-cell.recommended { color:var(--brand); }
+
+/* Action row */
+.action-row td { padding:20px 16px;border-bottom:none; }
+.action-row .attr-cell { background:var(--bg); }
+.action-row td.recommended { background:rgba(var(--brand-rgb),0.04);border-left:1px solid rgba(var(--brand-rgb),0.15);border-right:1px solid rgba(var(--brand-rgb),0.15);border-bottom:1px solid rgba(var(--brand-rgb),0.15); }
+.btn-cta { display:block;width:100%;padding:11px 0;border-radius:var(--radius-pill);font-size:13px;font-weight:600;text-align:center;background:var(--brand);color:var(--brand-text);box-shadow:0 0 16px rgba(var(--brand-rgb),0.3);transition:var(--transition);border:none;cursor:pointer;margin-bottom:8px; }
+.btn-cta:hover { box-shadow:0 0 28px rgba(var(--brand-rgb),0.5);opacity:0.9; }
+.btn-outline { display:block;width:100%;padding:10px 0;border-radius:var(--radius-pill);font-size:13px;font-weight:500;text-align:center;background:none;border:1px solid var(--border);color:var(--ink-muted);transition:var(--transition);cursor:pointer; }
+.btn-outline:hover { border-color:var(--ink-muted);color:var(--ink); }
+
+/* Row group label */
+.group-spacer td { height:8px;background:transparent !important;border:none !important; }
+
+/* MOBILE BOTTOM NAV */
+.bottom-nav { display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(20,20,20,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--border);padding:8px 0;z-index:100; }
+.bottom-nav-inner { display:flex;justify-content:space-around;align-items:center; }
+.bnav-item { display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 16px;cursor:pointer;color:var(--ink-muted);transition:var(--transition);text-decoration:none; }
+.bnav-item.active { color:var(--brand); }
+.bnav-label { font-size:10px;font-weight:600;letter-spacing:0.04em; }
+
+/* Summary cards (mobile-friendly alternative) */
+.mobile-cards { display:none;flex-direction:column;gap:16px;padding:0 24px 80px;max-width:1200px;margin:0 auto; }
+.mc-plan { background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);overflow:hidden;box-shadow:var(--shadow-card); }
+.mc-plan.recommended { border-color:rgba(var(--brand-rgb),0.4);box-shadow:0 0 0 1px rgba(var(--brand-rgb),0.1),0 8px 32px rgba(0,0,0,0.4); }
+.mc-plan-header { padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:14px; }
+.mc-plan-header.recommended { background:rgba(var(--brand-rgb),0.06); }
+.mc-plan-logo { width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:white;flex-shrink:0; }
+.mc-plan-info { flex:1; }
+.mc-plan-name { font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--ink);margin-bottom:2px; }
+.mc-plan-insurer { font-size:11px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.04em; }
+.mc-plan-price { text-align:right; }
+.mc-plan-amount { font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--ink); }
+.mc-plan-amount.rec { color:var(--brand); }
+.mc-plan-period { font-size:11px;color:var(--ink-muted); }
+.mc-plan-rows { padding:16px 20px; }
+.mc-row { display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(42,42,42,0.5);font-size:13px; }
+.mc-row:last-child { border-bottom:none; }
+.mc-row-key { color:var(--ink-muted); }
+.mc-row-val { color:var(--ink);font-weight:500; }
+.mc-plan-actions { padding:16px 20px;border-top:1px solid var(--border);display:flex;gap:10px; }
+
+@media (max-width:768px) {
+  .bottom-nav { display:block; }
+  body { padding-bottom:70px; }
+  .nav-links { display:none; }
+  .compare-wrap { display:none; }
+  .mobile-cards { display:flex; }
+  .rec-inner { flex-wrap:wrap; }
+  .rec-cta { width:100%; text-align:center; }
+}
+@media (max-width:480px) {
+  .selector-chips { gap:8px; }
+  .sel-chip { padding:6px 12px;font-size:12px; }
+}
+
+/* Scroll hint for table */
+.scroll-hint { display:none;align-items:center;gap:6px;font-size:12px;color:var(--ink-muted);padding:0 24px 12px;max-width:1200px;margin:0 auto; }
+@media (max-width:900px) { .scroll-hint { display:flex; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Nxt<span>Insure</span><div class="logo-dot"></div></a>
+    <div class="nav-theme">
+      <button onclick="setPartner('airtel')" id="tab-airtel">Airtel</button>
+      <button onclick="setPartner('ecobank')" id="tab-ecobank">Ecobank</button>
+      <button onclick="setPartner('nxtinsure')" id="tab-nxtinsure" class="active">NxtInsure</button>
+    </div>
+    <div class="nav-spacer"></div>
+    <a href="index.html" class="back-link">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      All Plans
+    </a>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-muted);margin-bottom:20px;">
+    <a href="index.html" style="color:var(--ink-muted);">Home</a>
+    <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    <span style="color:var(--ink);">Compare Plans</span>
+  </div>
+  <div class="section-label">Side-by-Side Comparison</div>
+  <div class="page-title">Find your<br><em style="font-style:italic;color:var(--brand);">perfect</em> plan</div>
+  <div class="page-sub">Compare Uganda's top health insurance plans on coverage, price, and claims performance.</div>
+</div>
+
+<!-- PLAN SELECTOR -->
+<div class="plan-selector">
+  <div class="selector-label">Plans in comparison</div>
+  <div class="selector-chips">
+    <div class="sel-chip active">
+      <div class="chip-dot" style="background:#FF3040;"></div>
+      J-Care Junior
+      <div class="chip-remove">×</div>
+    </div>
+    <div class="sel-chip active">
+      <div class="chip-dot" style="background:#7C6EF5;"></div>
+      AfyaImara Lite
+      <div class="chip-remove">×</div>
+    </div>
+    <div class="sel-chip active">
+      <div class="chip-dot" style="background:#00C880;"></div>
+      Health Lite
+      <div class="chip-remove">×</div>
+    </div>
+    <div class="sel-chip active">
+      <div class="chip-dot" style="background:#38BDF8;"></div>
+      Family Shield
+      <div class="chip-remove">×</div>
+    </div>
+    <div class="sel-chip" style="border-style:dashed;">
+      <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add a plan
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMENDATION CARD -->
+<div class="rec-card">
+  <div class="rec-inner">
+    <div class="rec-icon">
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="var(--brand)" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="rec-text">
+      <div class="rec-eyebrow">AI Recommendation</div>
+      <div class="rec-title">AfyaImara Lite is your best match</div>
+      <div class="rec-desc">Best balance of price, claims speed (48h), and hospital network (300+) for individual health cover.</div>
+    </div>
+    <a href="pdp.html" class="rec-cta">View Plan →</a>
+  </div>
+</div>
+
+<!-- SCROLL HINT -->
+<div class="scroll-hint">
+  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  Scroll right to see all plans
+</div>
+
+<!-- COMPARE TABLE (Desktop) -->
+<div class="compare-wrap">
+  <table class="compare-table">
+
+    <!-- PLAN HEADERS -->
+    <thead>
+      <tr class="plan-header-row">
+        <td class="attr-cell col-attr" style="vertical-align:bottom;padding:20px 16px;">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);">4 plans compared</div>
+        </td>
+        <!-- Plan 1 -->
+        <td class="plan-header-cell col-plan">
+          <div class="plan-logo" style="background:#FF3040;">JH</div>
+          <div class="plan-name-cell">J-Care Junior</div>
+          <div class="plan-insurer-cell">Jubilee Health</div>
+          <span class="plan-badge-cell">Child Cover</span>
+        </td>
+        <!-- Plan 2 — RECOMMENDED -->
+        <td class="plan-header-cell col-plan recommended">
+          <div class="recommend-pill">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Best Match
+          </div>
+          <div class="plan-logo" style="background:#7C6EF5;">AAR</div>
+          <div class="plan-name-cell">AfyaImara Lite</div>
+          <div class="plan-insurer-cell">AAR Insurance</div>
+          <span class="plan-badge-cell" style="border-color:rgba(var(--brand-rgb),0.3);color:var(--brand);background:var(--brand-light);">Popular</span>
+        </td>
+        <!-- Plan 3 -->
+        <td class="plan-header-cell col-plan">
+          <div class="plan-logo" style="background:#00C880;">IL</div>
+          <div class="plan-name-cell">Health Lite</div>
+          <div class="plan-insurer-cell">ICEA Lion</div>
+          <span class="plan-badge-cell">Best Value</span>
+        </td>
+        <!-- Plan 4 -->
+        <td class="plan-header-cell col-plan">
+          <div class="plan-logo" style="background:#38BDF8;">UAP</div>
+          <div class="plan-name-cell">Family Shield</div>
+          <div class="plan-insurer-cell">UAP Old Mutual</div>
+          <span class="plan-badge-cell">Premium</span>
+        </td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- ── GROUP: PLAN INFO ── -->
+      <tr class="group-header">
+        <td class="attr-cell">Plan Info</td>
+        <td></td><td class="recommended"></td><td></td><td></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Monthly Premium</td>
+        <td><div class="price-cell">UGX 12,000<span class="per"> /mo</span></div></td>
+        <td class="recommended"><div class="price-cell recommended">UGX 18,500<span class="per"> /mo</span></div></td>
+        <td><div class="price-cell">UGX 22,000<span class="per"> /mo</span></div></td>
+        <td><div class="price-cell">UGX 45,000<span class="per"> /mo</span></div></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Annual Cost</td>
+        <td>UGX 144,000</td>
+        <td class="recommended val-highlight">UGX 222,000</td>
+        <td>UGX 264,000</td>
+        <td>UGX 540,000</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Badge</td>
+        <td>Child Cover</td>
+        <td class="recommended">Popular</td>
+        <td>Best Value</td>
+        <td>Premium</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Pay in Instalments</td>
+        <td><span class="check">✓</span></td>
+        <td class="recommended"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="cross">—</span></td>
+      </tr>
+      <tr class="group-spacer"><td colspan="5"></td></tr>
+
+      <!-- ── GROUP: COVERAGE ── -->
+      <tr class="group-header">
+        <td class="attr-cell">Coverage</td>
+        <td></td><td class="recommended"></td><td></td><td></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Inpatient Limit</td>
+        <td>UGX 5,000,000</td>
+        <td class="recommended val-highlight">UGX 5,000,000</td>
+        <td>UGX 5,000,000</td>
+        <td>UGX 10,000,000</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">OPD / Outpatient</td>
+        <td><span class="check">✓</span> Included</td>
+        <td class="recommended"><span class="check">✓</span> Included</td>
+        <td><span class="check">✓</span> Included</td>
+        <td><span class="check">✓</span> Included</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Dental Cover</td>
+        <td><span class="check">✓</span> Optional</td>
+        <td class="recommended"><span class="cross">—</span></td>
+        <td><span class="check">✓</span> Included</td>
+        <td><span class="check">✓</span> Included</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Optical Cover</td>
+        <td><span class="check">✓</span> Optional</td>
+        <td class="recommended"><span class="cross">—</span></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span> Included</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Emergency Cover</td>
+        <td><span class="check">✓</span></td>
+        <td class="recommended"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Cover Score</td>
+        <td>
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:92%"></div></div>
+            <span class="mini-val">92/100</span>
+          </div>
+        </td>
+        <td class="recommended">
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:84%"></div></div>
+            <span class="mini-val val-highlight">84/100</span>
+          </div>
+        </td>
+        <td>
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:88%"></div></div>
+            <span class="mini-val">88/100</span>
+          </div>
+        </td>
+        <td>
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:96%"></div></div>
+            <span class="mini-val">96/100</span>
+          </div>
+        </td>
+      </tr>
+      <tr class="group-spacer"><td colspan="5"></td></tr>
+
+      <!-- ── GROUP: NETWORK ── -->
+      <tr class="group-header">
+        <td class="attr-cell">Network</td>
+        <td></td><td class="recommended"></td><td></td><td></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Partner Hospitals</td>
+        <td>120+ Uganda</td>
+        <td class="recommended val-highlight">300+ Uganda</td>
+        <td>200+ Uganda</td>
+        <td>200+ Uganda</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Regional Cover</td>
+        <td><span class="cross">—</span></td>
+        <td class="recommended"><span class="cross">—</span></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span> East Africa</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Telehealth</td>
+        <td><span class="check">✓</span></td>
+        <td class="recommended"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr class="group-spacer"><td colspan="5"></td></tr>
+
+      <!-- ── GROUP: SERVICE ── -->
+      <tr class="group-header">
+        <td class="attr-cell">Service</td>
+        <td></td><td class="recommended"></td><td></td><td></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Claims Speed</td>
+        <td>48 hrs</td>
+        <td class="recommended val-highlight">48 hrs</td>
+        <td>72 hrs</td>
+        <td>5 days</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Claims Score</td>
+        <td>
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:82%"></div></div>
+            <span class="mini-val">82/100</span>
+          </div>
+        </td>
+        <td class="recommended">
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:88%"></div></div>
+            <span class="mini-val val-highlight">88/100</span>
+          </div>
+        </td>
+        <td>
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:79%"></div></div>
+            <span class="mini-val">79/100</span>
+          </div>
+        </td>
+        <td>
+          <div class="mini-score">
+            <div class="mini-bar-wrap"><div class="mini-bar" style="width:76%"></div></div>
+            <span class="mini-val">76/100</span>
+          </div>
+        </td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">No Waiting Period</td>
+        <td><span class="check">✓</span></td>
+        <td class="recommended"><span class="check">✓</span></td>
+        <td><span class="cross">30 days</span></td>
+        <td><span class="cross">30 days</span></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Customer Rating</td>
+        <td>4.4 ★</td>
+        <td class="recommended val-highlight">4.6 ★</td>
+        <td>4.3 ★</td>
+        <td>4.1 ★</td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">Mobile Money Pay</td>
+        <td><span class="check">✓</span></td>
+        <td class="recommended"><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr class="data-row">
+        <td class="attr-cell">24/7 Support</td>
+        <td><span class="check">✓</span></td>
+        <td class="recommended"><span class="check">✓</span></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr class="group-spacer"><td colspan="5"></td></tr>
+
+      <!-- ── ACTIONS ── -->
+      <tr class="action-row">
+        <td class="attr-cell"></td>
+        <td>
+          <a href="pdp.html" class="btn-cta" style="background:var(--surface-el);color:var(--ink);box-shadow:none;border:1px solid var(--border);">View Details</a>
+          <button class="btn-outline" onclick="">Get Covered</button>
+        </td>
+        <td class="recommended">
+          <button class="btn-cta" onclick="">Get Covered</button>
+          <a href="pdp.html" class="btn-outline">View Details</a>
+        </td>
+        <td>
+          <a href="pdp.html" class="btn-cta" style="background:var(--surface-el);color:var(--ink);box-shadow:none;border:1px solid var(--border);">View Details</a>
+          <button class="btn-outline" onclick="">Get Covered</button>
+        </td>
+        <td>
+          <a href="pdp.html" class="btn-cta" style="background:var(--surface-el);color:var(--ink);box-shadow:none;border:1px solid var(--border);">View Details</a>
+          <button class="btn-outline" onclick="">Get Covered</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- MOBILE CARDS (shown on small screens) -->
+<div class="mobile-cards">
+
+  <!-- Plan 2 — RECOMMENDED first on mobile -->
+  <div class="mc-plan recommended">
+    <div class="mc-plan-header recommended">
+      <div class="mc-plan-logo" style="background:#7C6EF5;">AAR</div>
+      <div class="mc-plan-info">
+        <div style="margin-bottom:6px;"><span class="recommend-pill"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Best Match</span></div>
+        <div class="mc-plan-name">AfyaImara Lite</div>
+        <div class="mc-plan-insurer">AAR Insurance</div>
+      </div>
+      <div class="mc-plan-price">
+        <div class="mc-plan-amount rec">UGX 18,500</div>
+        <div class="mc-plan-period">/month</div>
+      </div>
+    </div>
+    <div class="mc-plan-rows">
+      <div class="mc-row"><span class="mc-row-key">Cover Score</span><span class="mc-row-val" style="color:var(--brand);">84/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Score</span><span class="mc-row-val" style="color:var(--brand);">88/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Hospital Network</span><span class="mc-row-val">300+</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Speed</span><span class="mc-row-val">48 hours</span></div>
+      <div class="mc-row"><span class="mc-row-key">OPD Included</span><span class="mc-row-val" style="color:var(--success);">✓ Yes</span></div>
+      <div class="mc-row"><span class="mc-row-key">Pay in Instalments</span><span class="mc-row-val" style="color:var(--success);">✓ Yes</span></div>
+      <div class="mc-row"><span class="mc-row-key">No Waiting Period</span><span class="mc-row-val" style="color:var(--success);">✓ Yes</span></div>
+    </div>
+    <div class="mc-plan-actions">
+      <button class="btn-cta" style="flex:2;margin-bottom:0;">Get Covered</button>
+      <a href="pdp.html" class="btn-outline" style="flex:1;">Details</a>
+    </div>
+  </div>
+
+  <!-- Plan 1 -->
+  <div class="mc-plan">
+    <div class="mc-plan-header">
+      <div class="mc-plan-logo" style="background:#FF3040;">JH</div>
+      <div class="mc-plan-info">
+        <div class="mc-plan-name">J-Care Junior</div>
+        <div class="mc-plan-insurer">Jubilee Health</div>
+      </div>
+      <div class="mc-plan-price">
+        <div class="mc-plan-amount">UGX 12,000</div>
+        <div class="mc-plan-period">/month</div>
+      </div>
+    </div>
+    <div class="mc-plan-rows">
+      <div class="mc-row"><span class="mc-row-key">Cover Score</span><span class="mc-row-val">92/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Score</span><span class="mc-row-val">82/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Hospital Network</span><span class="mc-row-val">120+</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Speed</span><span class="mc-row-val">48 hours</span></div>
+      <div class="mc-row"><span class="mc-row-key">OPD Included</span><span class="mc-row-val" style="color:var(--success);">✓ Yes</span></div>
+      <div class="mc-row"><span class="mc-row-key">Pay in Instalments</span><span class="mc-row-val" style="color:var(--success);">✓ Yes</span></div>
+      <div class="mc-row"><span class="mc-row-key">Best for</span><span class="mc-row-val">Children 0–18</span></div>
+    </div>
+    <div class="mc-plan-actions">
+      <a href="pdp.html" class="btn-cta" style="flex:2;margin-bottom:0;">View Details</a>
+      <button class="btn-outline" style="flex:1;">Compare</button>
+    </div>
+  </div>
+
+  <!-- Plan 3 -->
+  <div class="mc-plan">
+    <div class="mc-plan-header">
+      <div class="mc-plan-logo" style="background:#00C880;">IL</div>
+      <div class="mc-plan-info">
+        <div class="mc-plan-name">Health Lite</div>
+        <div class="mc-plan-insurer">ICEA Lion</div>
+      </div>
+      <div class="mc-plan-price">
+        <div class="mc-plan-amount">UGX 22,000</div>
+        <div class="mc-plan-period">/month</div>
+      </div>
+    </div>
+    <div class="mc-plan-rows">
+      <div class="mc-row"><span class="mc-row-key">Cover Score</span><span class="mc-row-val">88/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Score</span><span class="mc-row-val">79/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Hospital Network</span><span class="mc-row-val">200+</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Speed</span><span class="mc-row-val">72 hours</span></div>
+      <div class="mc-row"><span class="mc-row-key">Dental Included</span><span class="mc-row-val" style="color:var(--success);">✓ Yes</span></div>
+      <div class="mc-row"><span class="mc-row-key">Pay in Instalments</span><span class="mc-row-val" style="color:var(--success);">✓ Yes</span></div>
+    </div>
+    <div class="mc-plan-actions">
+      <a href="pdp.html" class="btn-cta" style="flex:2;margin-bottom:0;background:var(--surface-el);color:var(--ink);box-shadow:none;border:1px solid var(--border);">View Details</a>
+      <button class="btn-outline" style="flex:1;">Compare</button>
+    </div>
+  </div>
+
+  <!-- Plan 4 -->
+  <div class="mc-plan">
+    <div class="mc-plan-header">
+      <div class="mc-plan-logo" style="background:#38BDF8;">UAP</div>
+      <div class="mc-plan-info">
+        <div class="mc-plan-name">Family Shield</div>
+        <div class="mc-plan-insurer">UAP Old Mutual</div>
+      </div>
+      <div class="mc-plan-price">
+        <div class="mc-plan-amount">UGX 45,000</div>
+        <div class="mc-plan-period">/month</div>
+      </div>
+    </div>
+    <div class="mc-plan-rows">
+      <div class="mc-row"><span class="mc-row-key">Cover Score</span><span class="mc-row-val">96/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Score</span><span class="mc-row-val">76/100</span></div>
+      <div class="mc-row"><span class="mc-row-key">Hospital Network</span><span class="mc-row-val">200+ + Regional</span></div>
+      <div class="mc-row"><span class="mc-row-key">Claims Speed</span><span class="mc-row-val">5 days</span></div>
+      <div class="mc-row"><span class="mc-row-key">Dental + Optical</span><span class="mc-row-val" style="color:var(--success);">✓ Included</span></div>
+      <div class="mc-row"><span class="mc-row-key">Pay in Instalments</span><span class="mc-row-val" style="color:#666;">— Not available</span></div>
+    </div>
+    <div class="mc-plan-actions">
+      <a href="pdp.html" class="btn-cta" style="flex:2;margin-bottom:0;background:var(--surface-el);color:var(--ink);box-shadow:none;border:1px solid var(--border);">View Details</a>
+      <button class="btn-outline" style="flex:1;">Compare</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <a href="index.html" class="bnav-item">
+      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span class="bnav-label">Home</span>
+    </a>
+    <a href="index.html" class="bnav-item">
+      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"/></svg>
+      <span class="bnav-label">Products</span>
+    </a>
+    <a href="compare.html" class="bnav-item active">
+      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M15 21h4a2 2 0 0 0 2-2v-4"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      <span class="bnav-label">Compare</span>
+    </a>
+    <a href="#" class="bnav-item">
+      <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span class="bnav-label">Account</span>
+    </a>
+  </div>
+</nav>
+
+<script>
+// THEME
+function setPartner(p) {
+  document.documentElement.setAttribute('data-partner', p);
+  localStorage.setItem('nxtinsure_partner', p);
+  document.querySelectorAll('.nav-theme button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + p).classList.add('active');
+}
+(function init() { setPartner(localStorage.getItem('nxtinsure_partner') || 'nxtinsure'); })();
+
+// Animate score bars on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.mini-bar').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(() => { bar.style.transition = 'width 1s cubic-bezier(0.4,0,0.2,1)'; bar.style.width = w; }, 200);
+  });
+});
+
+// Chip remove interaction
+document.querySelectorAll('.chip-remove').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    btn.closest('.sel-chip').classList.toggle('active');
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en" data-partner="nxtinsure">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compare Plans | NxtInsure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #3448C5; --brand-light: #EEF1FB; --brand-text: #ffffff; --brand-gold: transparent;
+  --bg: #FAFAF8; --surface: #FFFFFF; --ink: #1C1917; --ink-muted: #78716C;
+  --border: #E7E5E4; --success: #15803D;
+  --radius-card: 20px; --radius-pill: 999px; --radius-input: 14px;
+  --shadow: 0 2px 8px rgba(28,25,23,0.06), 0 8px 24px rgba(28,25,23,0.04);
+  --shadow-lg: 0 4px 16px rgba(28,25,23,0.10), 0 16px 48px rgba(28,25,23,0.08);
+}
+[data-partner="airtel"] { --brand: #E31C23; --brand-light: #FFF1F2; --brand-text: #ffffff; }
+[data-partner="ecobank"] { --brand: #005B30; --brand-light: #F0FAF5; --brand-text: #ffffff; --brand-gold: #F5A500; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; font-size: 15px; }
+h1,h2,h3,h4 { font-family: 'DM Serif Display', serif; line-height: 1.2; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: 'DM Sans', sans-serif; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.nav-logo { display: flex; align-items: center; gap: 4px; font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 600; }
+.nav-logo span { color: var(--brand); }
+.nav-logo-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; display: inline-block; margin-left: 2px; }
+.back-link { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink-muted); padding: 8px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); transition: all 0.2s; white-space: nowrap; }
+.back-link:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+.nav-center { display: flex; align-items: center; gap: 4px; }
+.theme-tab { padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: none; font-size: 13px; font-weight: 500; color: var(--ink-muted); transition: all 0.2s; cursor: pointer; }
+.theme-tab.active { background: var(--brand); color: var(--brand-text); border-color: var(--brand); }
+.theme-tab:hover:not(.active) { border-color: var(--brand); color: var(--brand); }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-country { padding: 6px 12px; border-radius: var(--radius-pill); border: 1.5px solid var(--border); background: none; font-size: 13px; color: var(--ink); outline: none; cursor: pointer; }
+
+/* ── PAGE HEADER ── */
+.page-header { padding: 40px 24px 0; max-width: 1200px; margin: 0 auto; }
+.page-header-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 8px; }
+.compare-title { font-size: clamp(1.8rem, 3.5vw, 2.4rem); }
+.compare-title em { font-style: italic; color: var(--brand); }
+.plan-count-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--brand-light); color: var(--brand); border-radius: var(--radius-pill); padding: 6px 16px; font-size: 13px; font-weight: 600; }
+.page-sub { font-size: 15px; color: var(--ink-muted); margin-bottom: 32px; }
+
+/* ── COMPARISON WRAPPER ── */
+.compare-wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ── SCROLLABLE TABLE CONTAINER ── */
+.table-scroll-outer { overflow-x: auto; border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: var(--shadow); background: var(--surface); }
+
+/* ── COMPARISON TABLE ── */
+.compare-table { width: 100%; border-collapse: collapse; min-width: 680px; }
+
+/* Column widths */
+.compare-table .col-attr { width: 200px; min-width: 160px; }
+.compare-table .col-plan { min-width: 220px; }
+
+/* Sticky first column */
+.compare-table td:first-child,
+.compare-table th:first-child {
+  position: sticky; left: 0; z-index: 10;
+  background: var(--bg);
+}
+.compare-table tr:hover td:first-child { background: var(--bg); }
+
+/* Section header rows */
+.section-row td {
+  background: var(--bg) !important;
+  padding: 20px 20px 10px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--ink-muted);
+  border-bottom: 1px solid var(--border);
+}
+.section-row td:first-child { border-right: 1px solid var(--border); }
+
+/* Plan header row */
+.plan-header-row th { padding: 0; border-bottom: 2px solid var(--border); vertical-align: bottom; }
+.plan-header-row th:first-child { background: var(--bg); padding: 20px; }
+.plan-header-cell { padding: 24px 20px; text-align: left; }
+.plan-header-cell.recommended-col { background: var(--brand-light); border-radius: 16px 16px 0 0; position: relative; }
+.recommended-ribbon {
+  position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+  background: var(--brand); color: white; font-size: 11px; font-weight: 700;
+  padding: 4px 14px; border-radius: 0 0 10px 10px; letter-spacing: 0.06em; text-transform: uppercase;
+  white-space: nowrap;
+}
+.ph-logo { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; margin-bottom: 12px; }
+.ph-insurer { font-size: 12px; color: var(--ink-muted); margin-bottom: 4px; }
+.ph-name { font-family: 'DM Serif Display', serif; font-size: 18px; line-height: 1.2; margin-bottom: 8px; }
+.ph-badge { display: inline-block; padding: 3px 12px; border-radius: var(--radius-pill); font-size: 11px; font-weight: 600; }
+
+/* Data rows */
+.compare-table tbody tr { transition: background 0.15s; }
+.compare-table tbody tr:hover td { background: #F5F3F0; }
+.compare-table tbody tr:hover td:first-child { background: #F0EDE9; }
+.compare-table td { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: middle; }
+.compare-table td:first-child { font-size: 13px; font-weight: 500; color: var(--ink-muted); border-right: 1px solid var(--border); }
+.compare-table tr:last-child td { border-bottom: none; }
+
+/* Highlighted column */
+.highlight-col { background: rgba(52, 72, 197, 0.04); }
+[data-partner="airtel"] .highlight-col { background: rgba(227, 28, 35, 0.04); }
+[data-partner="ecobank"] .highlight-col { background: rgba(0, 91, 48, 0.04); }
+
+/* Cell value types */
+.price-cell { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); }
+.price-cell .period { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink-muted); font-weight: 400; }
+.price-cell.best { color: var(--brand); }
+.check-val { color: var(--success); font-weight: 600; font-size: 15px; }
+.cross-val { color: #DC2626; font-size: 15px; }
+.neutral-val { color: var(--ink-muted); }
+.score-cell { display: flex; align-items: center; gap: 10px; }
+.score-bar-sm { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; max-width: 80px; }
+.score-fill-sm { height: 100%; border-radius: 3px; background: var(--brand); }
+.score-fill-sm.green { background: var(--success); }
+.score-num { font-weight: 600; font-size: 13px; min-width: 28px; }
+.ipf-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; }
+.ipf-yes { background: #DCFCE7; color: var(--success); }
+.ipf-no { background: var(--bg); color: var(--ink-muted); border: 1px solid var(--border); }
+.rating-stars { color: #F59E0B; font-size: 14px; }
+
+/* Action row */
+.action-row td { padding: 20px; background: var(--surface) !important; border-bottom: none; }
+.action-row td:first-child { background: var(--bg) !important; }
+.btn-get { display: flex; padding: 11px 20px; background: var(--brand); color: var(--brand-text); border: none; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; width: 100%; }
+.btn-get:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-detail { display: flex; padding: 10px 20px; background: none; color: var(--brand); border: 1.5px solid var(--brand); border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s; width: 100%; margin-top: 8px; }
+.btn-detail:hover { background: var(--brand-light); }
+
+/* ── WHY WE RECOMMEND ── */
+.recommend-section { max-width: 1200px; margin: 40px auto 0; padding: 0 24px 40px; }
+.recommend-card {
+  background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border);
+  padding: 36px 40px; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center;
+  box-shadow: var(--shadow-lg); position: relative; overflow: hidden;
+}
+.recommend-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--brand);
+}
+.rc-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.rc-title { font-size: 1.6rem; margin-bottom: 12px; }
+.rc-title em { font-style: italic; color: var(--brand); }
+.rc-desc { font-size: 15px; color: var(--ink-muted); line-height: 1.7; max-width: 560px; }
+.rc-points { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.rc-point { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.rc-point-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--brand-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rc-point-dot svg { color: var(--brand); }
+.rc-plan-card { background: var(--brand-light); border-radius: 18px; padding: 24px; min-width: 200px; text-align: center; border: 1.5px solid var(--brand); }
+.rc-plan-logo { width: 56px; height: 56px; border-radius: 16px; background: #E31C23; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white; margin: 0 auto 12px; }
+.rc-plan-name { font-family: 'DM Serif Display', serif; font-size: 18px; margin-bottom: 4px; }
+.rc-plan-price { font-size: 22px; font-family: 'DM Serif Display', serif; color: var(--brand); }
+.rc-plan-period { font-size: 12px; color: var(--ink-muted); }
+.rc-cta { margin-top: 14px; padding: 11px 20px; background: var(--brand); color: white; border: none; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; width: 100%; transition: all 0.2s; }
+.rc-cta:hover { opacity: 0.88; }
+
+/* ── MOBILE NAV ── */
+.mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-top: 1px solid var(--border); padding: 8px 0 16px; }
+.mobile-nav-inner { display: flex; justify-content: space-around; }
+.mobile-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; color: var(--ink-muted); font-size: 11px; font-weight: 500; background: none; border: none; cursor: pointer; transition: color 0.2s; }
+.mobile-tab.active { color: var(--brand); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .recommend-card { grid-template-columns: 1fr; }
+  .rc-plan-card { min-width: auto; }
+}
+@media (max-width: 640px) {
+  .nav-center { display: none; }
+  .mobile-nav { display: block; }
+  .compare-wrap { padding: 0 12px 100px; }
+  .recommend-section { padding: 0 12px 40px; }
+  .recommend-card { padding: 24px 20px; }
+  body { padding-bottom: 72px; }
+  .page-header { padding: 24px 16px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to results
+    </a>
+    <a href="index.html" class="nav-logo">Nxt<span>Insure</span><span class="nav-logo-dot"></span></a>
+  </div>
+  <div class="nav-center">
+    <button class="theme-tab" data-partner="airtel" onclick="setPartner('airtel',this)">Airtel</button>
+    <button class="theme-tab" data-partner="ecobank" onclick="setPartner('ecobank',this)">Ecobank</button>
+    <button class="theme-tab active" data-partner="nxtinsure" onclick="setPartner('nxtinsure',this)">NxtInsure</button>
+  </div>
+  <div class="nav-right">
+    <select class="nav-country" id="countrySelect">
+      <option value="UG">🇺🇬 Uganda</option>
+      <option value="KE">🇰🇪 Kenya</option>
+    </select>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-top">
+    <h1 class="compare-title">Comparing <em>3 plans</em></h1>
+    <div class="plan-count-pill">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      3 plans selected
+    </div>
+  </div>
+  <p class="page-sub">Side-by-side comparison of Uganda's top health insurance plans for children and families.</p>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="compare-wrap">
+  <div class="table-scroll-outer">
+    <table class="compare-table">
+      <thead>
+        <tr class="plan-header-row">
+          <th class="col-attr">
+            <div style="padding:20px;display:flex;flex-direction:column;gap:4px;">
+              <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-muted);">Comparing</div>
+              <div style="font-size:11px;color:var(--ink-muted);">Scroll right for all plans →</div>
+            </div>
+          </th>
+
+          <!-- Plan 1: J-Care Junior -->
+          <th class="col-plan">
+            <div class="plan-header-cell recommended-col">
+              <div class="recommended-ribbon">⭐ Top Pick</div>
+              <div class="ph-logo" style="background:#E31C23;">JH</div>
+              <div class="ph-insurer">Jubilee Health</div>
+              <div class="ph-name">J-Care Junior</div>
+              <span class="ph-badge" style="background:#FFF1F2;color:#E31C23;">Child Cover</span>
+            </div>
+          </th>
+
+          <!-- Plan 2: AfyaImara Lite -->
+          <th class="col-plan">
+            <div class="plan-header-cell">
+              <div class="ph-logo" style="background:#1D4ED8;">AAR</div>
+              <div class="ph-insurer">AAR Insurance</div>
+              <div class="ph-name">AfyaImara Lite</div>
+              <span class="ph-badge" style="background:#DCFCE7;color:#15803D;">Popular</span>
+            </div>
+          </th>
+
+          <!-- Plan 3: Health Lite -->
+          <th class="col-plan">
+            <div class="plan-header-cell">
+              <div class="ph-logo" style="background:#7C3AED;">IL</div>
+              <div class="ph-insurer">ICEA Lion</div>
+              <div class="ph-name">Health Lite</div>
+              <span class="ph-badge" style="background:#EDE9FE;color:#7C3AED;">Best Value</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <!-- SECTION: PRICING -->
+        <tr class="section-row">
+          <td colspan="4">Pricing</td>
+        </tr>
+        <tr>
+          <td>Monthly Premium</td>
+          <td class="highlight-col"><div class="price-cell best">UGX 12,000<span class="period">/mo</span></div></td>
+          <td><div class="price-cell">UGX 18,500<span class="period">/mo</span></div></td>
+          <td><div class="price-cell">UGX 22,000<span class="period">/mo</span></div></td>
+        </tr>
+        <tr>
+          <td>Annual Premium</td>
+          <td class="highlight-col" style="font-weight:600;color:var(--brand);">UGX 144,000</td>
+          <td>UGX 222,000</td>
+          <td>UGX 264,000</td>
+        </tr>
+        <tr>
+          <td>IPF Available</td>
+          <td class="highlight-col"><span class="ipf-chip ipf-yes">✓ Yes</span></td>
+          <td><span class="ipf-chip ipf-yes">✓ Yes</span></td>
+          <td><span class="ipf-chip ipf-yes">✓ Yes</span></td>
+        </tr>
+        <tr>
+          <td>Daily IPF Rate</td>
+          <td class="highlight-col" style="color:var(--success);font-weight:600;">UGX 400/day</td>
+          <td style="color:var(--success);font-weight:600;">UGX 617/day</td>
+          <td style="color:var(--success);font-weight:600;">UGX 733/day</td>
+        </tr>
+
+        <!-- SECTION: COVER LIMITS -->
+        <tr class="section-row">
+          <td colspan="4">Cover Limits</td>
+        </tr>
+        <tr>
+          <td>Inpatient Limit</td>
+          <td class="highlight-col" style="font-weight:600;">UGX 5,000,000</td>
+          <td>UGX 3,000,000</td>
+          <td style="font-weight:600;color:var(--brand);">UGX 5,000,000</td>
+        </tr>
+        <tr>
+          <td>OPD Limit</td>
+          <td class="highlight-col" style="font-weight:600;color:var(--brand);">UGX 1,500,000</td>
+          <td>UGX 1,200,000</td>
+          <td>UGX 1,500,000</td>
+        </tr>
+        <tr>
+          <td>Dental Cover</td>
+          <td class="highlight-col"><span class="check-val">✓ Add-on</span></td>
+          <td><span class="cross-val">✕ No</span></td>
+          <td><span class="check-val">✓ Add-on</span></td>
+        </tr>
+        <tr>
+          <td>Optical Cover</td>
+          <td class="highlight-col"><span class="check-val">✓ Add-on</span></td>
+          <td><span class="cross-val">✕ No</span></td>
+          <td><span class="cross-val">✕ No</span></td>
+        </tr>
+        <tr>
+          <td>Maternity Cover</td>
+          <td class="highlight-col"><span class="cross-val">✕ No</span></td>
+          <td><span class="cross-val">✕ No</span></td>
+          <td><span class="cross-val">✕ No</span></td>
+        </tr>
+        <tr>
+          <td>Emergency Evacuation</td>
+          <td class="highlight-col"><span class="check-val">✓ Included</span></td>
+          <td><span class="check-val">✓ Included</span></td>
+          <td><span class="neutral-val">—</span></td>
+        </tr>
+
+        <!-- SECTION: NETWORK & CLAIMS -->
+        <tr class="section-row">
+          <td colspan="4">Network &amp; Claims</td>
+        </tr>
+        <tr>
+          <td>Hospital Network</td>
+          <td class="highlight-col" style="font-weight:600;color:var(--brand);">300+ Hospitals</td>
+          <td style="font-weight:600;color:var(--brand);">300+ Hospitals</td>
+          <td>250+ Hospitals</td>
+        </tr>
+        <tr>
+          <td>Claims Speed</td>
+          <td class="highlight-col">48 hours</td>
+          <td style="color:var(--success);font-weight:600;">48 hours</td>
+          <td>72 hours</td>
+        </tr>
+        <tr>
+          <td>Cover Score</td>
+          <td class="highlight-col">
+            <div class="score-cell">
+              <div class="score-bar-sm"><div class="score-fill-sm" style="width:92%"></div></div>
+              <span class="score-num">92</span>
+            </div>
+          </td>
+          <td>
+            <div class="score-cell">
+              <div class="score-bar-sm"><div class="score-fill-sm" style="width:84%"></div></div>
+              <span class="score-num">84</span>
+            </div>
+          </td>
+          <td>
+            <div class="score-cell">
+              <div class="score-bar-sm"><div class="score-fill-sm" style="width:88%"></div></div>
+              <span class="score-num">88</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Claims Score</td>
+          <td class="highlight-col">
+            <div class="score-cell">
+              <div class="score-bar-sm"><div class="score-fill-sm green" style="width:82%"></div></div>
+              <span class="score-num">82</span>
+            </div>
+          </td>
+          <td>
+            <div class="score-cell">
+              <div class="score-bar-sm"><div class="score-fill-sm green" style="width:88%"></div></div>
+              <span class="score-num" style="color:var(--success);">88</span>
+            </div>
+          </td>
+          <td>
+            <div class="score-cell">
+              <div class="score-bar-sm"><div class="score-fill-sm green" style="width:79%"></div></div>
+              <span class="score-num">79</span>
+            </div>
+          </td>
+        </tr>
+
+        <!-- SECTION: INSURER DETAILS -->
+        <tr class="section-row">
+          <td colspan="4">Insurer Details</td>
+        </tr>
+        <tr>
+          <td>Underwriter Rating</td>
+          <td class="highlight-col">
+            <div class="rating-stars">★★★★★</div>
+            <div style="font-size:12px;color:var(--ink-muted);margin-top:2px;">AA Rated · Est. 2006</div>
+          </td>
+          <td>
+            <div class="rating-stars">★★★★<span style="opacity:0.3">★</span></div>
+            <div style="font-size:12px;color:var(--ink-muted);margin-top:2px;">A Rated · Est. 1984</div>
+          </td>
+          <td>
+            <div class="rating-stars">★★★★<span style="opacity:0.3">★</span></div>
+            <div style="font-size:12px;color:var(--ink-muted);margin-top:2px;">A+ Rated · Est. 1967</div>
+          </td>
+        </tr>
+        <tr>
+          <td>IRA Licensed</td>
+          <td class="highlight-col"><span class="check-val">✓ Yes</span></td>
+          <td><span class="check-val">✓ Yes</span></td>
+          <td><span class="check-val">✓ Yes</span></td>
+        </tr>
+        <tr>
+          <td>Claims Paid Ratio</td>
+          <td class="highlight-col" style="font-weight:600;color:var(--success);">98%</td>
+          <td style="font-weight:600;color:var(--success);">96%</td>
+          <td style="font-weight:600;">94%</td>
+        </tr>
+        <tr>
+          <td>24/7 Support</td>
+          <td class="highlight-col"><span class="check-val">✓ App + SMS</span></td>
+          <td><span class="check-val">✓ Call centre</span></td>
+          <td><span class="check-val">✓ SMS only</span></td>
+        </tr>
+        <tr>
+          <td>Mobile Payment</td>
+          <td class="highlight-col"><span class="check-val">✓ Airtel Money</span></td>
+          <td><span class="check-val">✓ Airtel Money</span></td>
+          <td><span class="check-val">✓ Airtel Money</span></td>
+        </tr>
+        <tr>
+          <td>Pre-existing (wait)</td>
+          <td class="highlight-col">12 months</td>
+          <td>No waiting period</td>
+          <td>12 months</td>
+        </tr>
+
+        <!-- ACTION ROW -->
+        <tr class="action-row">
+          <td></td>
+          <td class="highlight-col">
+            <a href="pdp.html" class="btn-get">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Get Covered
+            </a>
+            <a href="pdp.html" class="btn-detail">View Details →</a>
+          </td>
+          <td>
+            <button class="btn-get" style="background:var(--bg);color:var(--brand);border:1.5px solid var(--brand);">Get Covered</button>
+            <button class="btn-detail">View Details →</button>
+          </td>
+          <td>
+            <button class="btn-get" style="background:var(--bg);color:var(--brand);border:1.5px solid var(--brand);">Get Covered</button>
+            <button class="btn-detail">View Details →</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- WHY WE RECOMMEND -->
+<div class="recommend-section">
+  <div class="recommend-card">
+    <div>
+      <div class="rc-label">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Our recommendation
+      </div>
+      <h2 class="rc-title">Why we recommend <em>J-Care Junior</em></h2>
+      <p class="rc-desc">After comparing price, cover quality, claims speed and insurer strength, J-Care Junior from Jubilee Health delivers the best overall value for child health insurance in Uganda.</p>
+      <div class="rc-points">
+        <div class="rc-point">
+          <div class="rc-point-dot">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span><strong>Lowest monthly cost</strong> at UGX 12,000/mo — 35% cheaper than AfyaImara Lite</span>
+        </div>
+        <div class="rc-point">
+          <div class="rc-point-dot">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span><strong>Highest cover score</strong> (92/100) — inpatient, OPD, dental and optical add-ons available</span>
+        </div>
+        <div class="rc-point">
+          <div class="rc-point-dot">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span><strong>AA-rated insurer</strong> with 98% claims paid ratio and 300+ hospital network across Uganda</span>
+        </div>
+        <div class="rc-point">
+          <div class="rc-point-dot">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span><strong>IPF available</strong> — pay as little as UGX 400/day via Airtel Money</span>
+        </div>
+      </div>
+    </div>
+    <div class="rc-plan-card">
+      <div class="rc-plan-logo">JH</div>
+      <div class="rc-plan-name">J-Care Junior</div>
+      <div style="font-size:12px;color:var(--ink-muted);margin-bottom:12px;">Jubilee Health</div>
+      <div class="rc-plan-price">UGX 12,000</div>
+      <div class="rc-plan-period">per month</div>
+      <a href="pdp.html"><button class="rc-cta">Get Covered →</button></a>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mobile-tab" onclick="window.location.href='index.html'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Home
+    </button>
+    <button class="mobile-tab" onclick="window.location.href='index.html'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
+      Products
+    </button>
+    <button class="mobile-tab active">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+      Compare
+    </button>
+    <button class="mobile-tab">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Account
+    </button>
+  </div>
+</nav>
+
+<script>
+// ── PARTNER ──
+function setPartner(partner, btn) {
+  document.documentElement.setAttribute('data-partner', partner);
+  localStorage.setItem('nxtinsure_partner', partner);
+  document.querySelectorAll('.theme-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+}
+
+(function init() {
+  const p = localStorage.getItem('nxtinsure_partner') || 'nxtinsure';
+  const btn = document.querySelector(`.theme-tab[data-partner="${p}"]`);
+  setPartner(p, btn);
+  const c = localStorage.getItem('nxtinsure_country') || 'UG';
+  document.getElementById('countrySelect').value = c;
+})();
+
+// ── ANIMATE SCORE BARS ON LOAD ──
+window.addEventListener('load', () => {
+  const fills = document.querySelectorAll('.score-fill-sm');
+  fills.forEach(el => {
+    const w = el.style.width;
+    el.style.width = '0';
+    setTimeout(() => { el.style.transition = 'width 0.8s ease'; el.style.width = w; }, 300);
+  });
+});
+</script>
+</body>
+</html>

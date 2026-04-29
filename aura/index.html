@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en" data-partner="nxtinsure">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NxtInsure — Insurance that fits your life</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #3448C5;
+  --brand-light: #EEF1FB;
+  --brand-text: #ffffff;
+  --brand-gold: transparent;
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --ink: #1C1917;
+  --ink-muted: #78716C;
+  --border: #E7E5E4;
+  --success: #15803D;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+  --radius-input: 14px;
+  --shadow: 0 2px 8px rgba(28,25,23,0.06), 0 8px 24px rgba(28,25,23,0.04);
+  --shadow-lg: 0 4px 16px rgba(28,25,23,0.10), 0 16px 48px rgba(28,25,23,0.08);
+}
+[data-partner="airtel"] { --brand: #E31C23; --brand-light: #FFF1F2; --brand-text: #ffffff; }
+[data-partner="ecobank"] { --brand: #005B30; --brand-light: #F0FAF5; --brand-text: #ffffff; --brand-gold: #F5A500; }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; font-size: 15px; }
+h1,h2,h3,h4 { font-family: 'DM Serif Display', serif; line-height: 1.2; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: 'DM Sans', sans-serif; }
+img { max-width: 100%; }
+input, select { font-family: 'DM Sans', sans-serif; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; font-family: 'DM Sans', sans-serif; font-size: 18px; font-weight: 600; }
+.nav-logo span { color: var(--brand); }
+.nav-logo-dot { width: 8px; height: 8px; background: var(--brand); border-radius: 50%; display: inline-block; margin-left: 2px; transition: background 0.3s; }
+.nav-center { display: flex; align-items: center; gap: 4px; }
+.theme-tab {
+  padding: 6px 14px; border-radius: var(--radius-pill); border: 1.5px solid var(--border);
+  background: none; font-size: 13px; font-weight: 500; color: var(--ink-muted);
+  transition: all 0.2s; cursor: pointer;
+}
+.theme-tab.active { background: var(--brand); color: var(--brand-text); border-color: var(--brand); }
+.theme-tab:hover:not(.active) { border-color: var(--brand); color: var(--brand); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-country {
+  padding: 6px 12px; border-radius: var(--radius-pill); border: 1.5px solid var(--border);
+  background: none; font-size: 13px; color: var(--ink); outline: none; cursor: pointer;
+}
+.nav-link { font-size: 14px; font-weight: 500; color: var(--ink-muted); padding: 6px 8px; border-radius: 8px; transition: color 0.2s; }
+.nav-link:hover { color: var(--brand); }
+
+/* ── HERO ── */
+.hero {
+  min-height: calc(100vh - 64px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 80px 24px 60px; text-align: center; position: relative;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--brand-light); color: var(--brand); border-radius: var(--radius-pill);
+  padding: 6px 16px; font-size: 13px; font-weight: 500; margin-bottom: 24px;
+}
+.hero-title { font-size: clamp(2.4rem, 6vw, 4.2rem); max-width: 720px; margin-bottom: 20px; line-height: 1.15; }
+.hero-title em { font-style: italic; color: var(--brand); }
+.hero-sub { font-size: 18px; color: var(--ink-muted); max-width: 520px; margin-bottom: 40px; }
+.hero-sub .partner-name { font-weight: 600; color: var(--ink); }
+
+.search-wrap { width: 100%; max-width: 640px; margin-bottom: 36px; position: relative; }
+.search-input {
+  width: 100%; padding: 18px 60px 18px 24px;
+  border: 2px solid var(--border); border-radius: var(--radius-pill);
+  background: var(--surface); font-size: 16px; outline: none;
+  box-shadow: var(--shadow); transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-input:focus { border-color: var(--brand); box-shadow: 0 0 0 4px var(--brand-light); }
+.search-btn {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  width: 42px; height: 42px; border-radius: 50%; background: var(--brand); border: none;
+  display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.15s;
+}
+.search-btn:hover { transform: translateY(-50%) scale(1.05); }
+.search-btn svg { color: white; }
+
+.cats { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 680px; }
+.cat-chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 20px; border-radius: var(--radius-pill);
+  border: 1.5px solid var(--border); background: var(--surface);
+  font-size: 14px; font-weight: 500; color: var(--ink); cursor: pointer;
+  transition: all 0.2s; box-shadow: var(--shadow);
+}
+.cat-chip:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.cat-chip.active { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+.cat-chip span { font-size: 18px; }
+
+/* ── WIZARD ── */
+.wizard-overlay {
+  position: fixed; inset: 0; background: rgba(28,25,23,0.5); z-index: 200;
+  display: none; align-items: center; justify-content: center; padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.wizard-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
+.wizard-box {
+  background: var(--surface); border-radius: var(--radius-card);
+  width: 100%; max-width: 520px; padding: 36px; position: relative;
+  box-shadow: var(--shadow-lg); animation: slideUp 0.3s ease;
+}
+.wizard-close {
+  position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+  border: none; background: var(--bg); border-radius: 50%; font-size: 18px;
+  display: flex; align-items: center; justify-content: center; color: var(--ink-muted);
+  cursor: pointer; transition: background 0.2s;
+}
+.wizard-close:hover { background: var(--border); }
+.progress-bar { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 28px; }
+.progress-fill { height: 100%; background: var(--brand); border-radius: 2px; transition: width 0.4s ease; }
+.wizard-step { display: none; }
+.wizard-step.active { display: block; animation: fadeIn 0.2s ease; }
+.wizard-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--brand); margin-bottom: 8px; }
+.wizard-title { font-size: 22px; margin-bottom: 20px; }
+.wizard-options { display: flex; flex-wrap: wrap; gap: 10px; }
+.wizard-opt {
+  padding: 10px 18px; border: 1.5px solid var(--border); border-radius: var(--radius-pill);
+  background: none; font-size: 14px; font-weight: 500; color: var(--ink); cursor: pointer;
+  transition: all 0.2s;
+}
+.wizard-opt:hover, .wizard-opt.selected { border-color: var(--brand); background: var(--brand-light); color: var(--brand); }
+.wizard-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 28px; }
+.btn-back { background: none; border: none; font-size: 14px; color: var(--ink-muted); padding: 0; }
+.btn-back:hover { color: var(--ink); }
+.btn-primary {
+  padding: 12px 28px; background: var(--brand); color: var(--brand-text);
+  border: none; border-radius: var(--radius-pill); font-size: 15px; font-weight: 600;
+  transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* ── LISTING ── */
+.listing-section { padding: 60px 24px; }
+.listing-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 32px; align-items: start; }
+
+/* Sidebar */
+.sidebar { background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border); padding: 24px; position: sticky; top: 80px; box-shadow: var(--shadow); }
+.sidebar-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.sidebar-section { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+.sidebar-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.form-group { margin-bottom: 14px; }
+.form-label { font-size: 12px; font-weight: 500; color: var(--ink-muted); margin-bottom: 6px; display: block; }
+.form-control {
+  width: 100%; padding: 10px 14px; border: 1.5px solid var(--border);
+  border-radius: var(--radius-input); background: var(--bg); font-size: 14px;
+  outline: none; transition: border-color 0.2s;
+}
+.form-control:focus { border-color: var(--brand); }
+.range-wrap { position: relative; }
+.range-val { font-size: 13px; font-weight: 600; color: var(--brand); margin-bottom: 8px; }
+input[type=range] { width: 100%; accent-color: var(--brand); }
+.check-group { display: flex; flex-direction: column; gap: 10px; }
+.check-item { display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer; }
+.check-item input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--brand); cursor: pointer; }
+.toggle-row { display: flex; align-items: center; justify-content: space-between; }
+.toggle { position: relative; width: 40px; height: 22px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; inset: 0; background: var(--border); border-radius: 11px; cursor: pointer; transition: 0.3s; }
+.toggle-slider::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+.toggle input:checked + .toggle-slider { background: var(--brand); }
+.toggle input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+/* Main listing area */
+.listing-main {}
+.listing-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.listing-count { font-size: 15px; color: var(--ink-muted); }
+.listing-count strong { color: var(--ink); font-weight: 600; }
+.toolbar-right { display: flex; align-items: center; gap: 10px; }
+.sort-select {
+  padding: 8px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-pill);
+  background: var(--surface); font-size: 13px; outline: none; cursor: pointer;
+}
+.view-toggle { display: flex; border: 1.5px solid var(--border); border-radius: var(--radius-pill); overflow: hidden; }
+.view-btn { padding: 7px 12px; background: none; border: none; color: var(--ink-muted); transition: all 0.2s; cursor: pointer; }
+.view-btn.active { background: var(--brand); color: white; }
+
+/* Active filters */
+.active-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.filter-tag {
+  display: flex; align-items: center; gap: 6px; padding: 6px 12px;
+  background: var(--brand-light); color: var(--brand); border-radius: var(--radius-pill);
+  font-size: 13px; font-weight: 500;
+}
+.filter-tag-remove { cursor: pointer; font-size: 16px; line-height: 1; }
+
+/* Product Cards */
+.cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.cards-grid.list-view { grid-template-columns: 1fr; }
+
+.product-card {
+  background: var(--surface); border-radius: var(--radius-card); border: 1px solid var(--border);
+  padding: 24px; position: relative; cursor: pointer;
+  transition: all 0.25s; box-shadow: var(--shadow);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.product-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); border-color: var(--brand); }
+.product-card.compare-selected { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-light), var(--shadow-lg); }
+
+.card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.insurer-logo {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: white; flex-shrink: 0;
+  font-family: 'DM Sans', sans-serif;
+}
+.badge-pill {
+  padding: 4px 12px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 600;
+  background: var(--brand-light); color: var(--brand); white-space: nowrap;
+}
+.badge-pill.mandatory { background: #FEF3C7; color: #92400E; }
+.badge-pill.popular { background: #DCFCE7; color: #15803D; }
+.badge-pill.premium { background: #F3E8FF; color: #7C3AED; }
+.badge-pill.new { background: #DBEAFE; color: #1D4ED8; }
+
+.card-title { font-size: 20px; line-height: 1.2; }
+.card-insurer { font-size: 13px; color: var(--ink-muted); margin-top: 3px; }
+
+.card-price { display: flex; align-items: baseline; gap: 4px; }
+.price-amount { font-family: 'DM Serif Display', serif; font-size: 26px; }
+.price-period { font-size: 13px; color: var(--ink-muted); }
+
+.card-features { display: flex; flex-direction: column; gap: 6px; }
+.feature-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-muted); }
+.feature-dot { width: 6px; height: 6px; background: var(--brand); border-radius: 50%; flex-shrink: 0; }
+
+.card-scores { display: flex; flex-direction: column; gap: 8px; }
+.score-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.score-label { width: 90px; color: var(--ink-muted); flex-shrink: 0; }
+.score-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.score-fill { height: 100%; border-radius: 3px; background: var(--brand); transition: width 0.6s ease; }
+.score-fill.claims { background: var(--success); }
+.score-val { width: 30px; text-align: right; font-weight: 600; color: var(--ink); }
+
+.card-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.btn-outline {
+  padding: 9px 16px; border: 1.5px solid var(--border); border-radius: var(--radius-pill);
+  background: none; font-size: 13px; font-weight: 500; color: var(--ink-muted);
+  transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.btn-outline:hover { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+.btn-outline.compare-active { border-color: var(--brand); color: var(--brand); background: var(--brand-light); }
+.btn-view {
+  padding: 9px 18px; background: var(--brand); color: var(--brand-text); border: none;
+  border-radius: var(--radius-pill); font-size: 13px; font-weight: 600; transition: all 0.2s;
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-view:hover { opacity: 0.88; }
+.ipf-tag { font-size: 11px; color: var(--success); background: #DCFCE7; padding: 3px 8px; border-radius: var(--radius-pill); font-weight: 500; }
+
+/* Compare tray */
+.compare-tray {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 14px 24px; display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 -8px 32px rgba(28,25,23,0.1);
+  transform: translateY(100%); transition: transform 0.3s ease;
+}
+.compare-tray.visible { transform: translateY(0); }
+.tray-bubbles { display: flex; align-items: center; gap: 10px; }
+.tray-bubble {
+  width: 44px; height: 44px; border-radius: 50%; border: 2px dashed var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--ink-muted);
+  transition: all 0.2s;
+}
+.tray-bubble.filled { border-style: solid; border-color: var(--brand); background: var(--brand-light); color: var(--brand); font-size: 10px; }
+.tray-info { font-size: 13px; color: var(--ink-muted); margin-left: 12px; }
+.tray-actions { display: flex; gap: 10px; align-items: center; }
+.btn-clear { background: none; border: none; font-size: 13px; color: var(--ink-muted); text-decoration: underline; }
+
+/* ── HOW IT WORKS ── */
+.hiw-section { padding: 80px 24px; background: var(--surface); border-top: 1px solid var(--border); }
+.hiw-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brand); margin-bottom: 12px; }
+.section-title { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 16px; }
+.section-sub { font-size: 16px; color: var(--ink-muted); max-width: 480px; margin: 0 auto 56px; }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+.step-card { text-align: center; padding: 24px 12px; }
+.step-icon {
+  width: 72px; height: 72px; border-radius: 20px; background: var(--brand-light);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+  transition: background 0.3s;
+}
+.step-icon svg { color: var(--brand); }
+.step-num { font-size: 12px; font-weight: 700; color: var(--brand); margin-bottom: 8px; letter-spacing: 0.05em; }
+.step-title { font-size: 18px; margin-bottom: 8px; }
+.step-desc { font-size: 14px; color: var(--ink-muted); line-height: 1.6; }
+
+/* ── FOOTER ── */
+footer { background: var(--ink); color: #E7E5E4; padding: 56px 24px 32px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-brand h3 { font-size: 22px; color: white; margin-bottom: 8px; }
+.footer-brand p { font-size: 13px; color: #A8A29E; line-height: 1.7; }
+.footer-partner-badge {
+  display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08);
+  padding: 8px 14px; border-radius: 10px; margin-top: 14px; font-size: 12px; color: #A8A29E;
+}
+.footer-col h4 { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: #D6D3D1; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
+.footer-col a { display: block; font-size: 14px; color: #A8A29E; margin-bottom: 10px; transition: color 0.2s; }
+.footer-col a:hover { color: white; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-reg { font-size: 12px; color: #78716C; }
+.footer-copy { font-size: 12px; color: #57534E; }
+
+/* ── CHAT WIDGET ── */
+.chat-fab {
+  position: fixed; bottom: 80px; right: 24px; z-index: 99;
+  width: 56px; height: 56px; border-radius: 50%; background: var(--brand);
+  border: none; box-shadow: var(--shadow-lg); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.chat-fab:hover { transform: scale(1.08); }
+.chat-panel {
+  position: fixed; bottom: 150px; right: 24px; z-index: 98;
+  width: 300px; background: var(--surface); border-radius: var(--radius-card);
+  border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+  display: none; overflow: hidden; animation: slideUp 0.3s ease;
+}
+.chat-panel.open { display: block; }
+.chat-header { background: var(--brand); padding: 16px 20px; color: white; }
+.chat-header h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.chat-header p { font-size: 12px; opacity: 0.8; }
+.chat-options { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.chat-opt {
+  padding: 12px 16px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border);
+  font-size: 13px; text-align: left; cursor: pointer; transition: all 0.2s; color: var(--ink);
+}
+.chat-opt:hover { background: var(--brand-light); border-color: var(--brand); color: var(--brand); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── MOBILE NAV ── */
+.mobile-nav {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border); padding: 8px 0 16px;
+}
+.mobile-nav-inner { display: flex; justify-content: space-around; }
+.mobile-tab { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; color: var(--ink-muted); font-size: 11px; font-weight: 500; background: none; border: none; cursor: pointer; transition: color 0.2s; }
+.mobile-tab.active { color: var(--brand); }
+.mobile-tab svg { width: 22px; height: 22px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .listing-inner { grid-template-columns: 1fr; }
+  .sidebar { position: relative; top: 0; }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .nav-center, .nav-link { display: none; }
+  .mobile-nav { display: block; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .hero { min-height: calc(100svh - 64px); padding: 48px 20px 100px; }
+  .hero-title { font-size: 2rem; }
+  .listing-section { padding: 40px 16px 100px; }
+  body { padding-bottom: 72px; }
+  .chat-fab { bottom: 90px; }
+  .chat-panel { bottom: 160px; right: 12px; left: 12px; width: auto; }
+  .compare-tray { padding-bottom: 80px; }
+}
+@media (max-width: 640px) {
+  .footer-top { gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    Nxt<span>Insure</span><span class="nav-logo-dot"></span>
+  </a>
+  <div class="nav-center">
+    <button class="theme-tab" data-partner="airtel" onclick="setPartner('airtel',this)">Airtel</button>
+    <button class="theme-tab" data-partner="ecobank" onclick="setPartner('ecobank',this)">Ecobank</button>
+    <button class="theme-tab active" data-partner="nxtinsure" onclick="setPartner('nxtinsure',this)">NxtInsure</button>
+  </div>
+  <div class="nav-right">
+    <select class="nav-country" id="countrySelect" onchange="setCountry(this.value)">
+      <option value="UG">🇺🇬 Uganda</option>
+      <option value="KE">🇰🇪 Kenya</option>
+    </select>
+    <a href="#" class="nav-link">My Policies</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L10.09 6.26L16 7L11.5 11.14L12.73 17L8 14.27L3.27 17L4.5 11.14L0 7L5.91 6.26L8 1Z" fill="currentColor"/></svg>
+    Trusted by 150,000+ families across East Africa
+  </div>
+  <h1 class="hero-title">Insurance that <em>fits</em> your life.</h1>
+  <p class="hero-sub">Compare plans from Uganda's top insurers and pay with <span class="partner-name">Airtel Money</span>.</p>
+
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="heroSearch" placeholder="Try: health cover for my child" />
+    <button class="search-btn" onclick="handleSearch()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+  </div>
+
+  <div class="cats">
+    <button class="cat-chip" onclick="openWizard('health')"><span>🏥</span> Health</button>
+    <button class="cat-chip" onclick="openWizard('motor')"><span>🚗</span> Motor</button>
+    <button class="cat-chip" onclick="openWizard('device')"><span>📱</span> Device</button>
+    <button class="cat-chip" onclick="openWizard('life')"><span>🌿</span> Life</button>
+    <button class="cat-chip" onclick="openWizard('travel')"><span>✈️</span> Travel</button>
+    <button class="cat-chip" onclick="openWizard('agriculture')"><span>🌱</span> Agriculture</button>
+  </div>
+</section>
+
+<!-- WIZARD MODAL -->
+<div class="wizard-overlay" id="wizardOverlay" onclick="closeWizardOnBg(event)">
+  <div class="wizard-box">
+    <button class="wizard-close" onclick="closeWizard()">×</button>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:33%"></div></div>
+
+    <!-- Step 1 -->
+    <div class="wizard-step active" id="step1">
+      <div class="wizard-label">Step 1 of 3 — Category</div>
+      <h2 class="wizard-title">You've selected <em id="stepCatName">Health</em></h2>
+      <p style="color:var(--ink-muted);font-size:14px;margin-bottom:20px;">Now tell us a bit more so we can find the right plan.</p>
+      <div class="wizard-options" id="step1Options"></div>
+      <div class="wizard-nav">
+        <button class="btn-back" onclick="closeWizard()">Cancel</button>
+        <button class="btn-primary" id="step1Next" onclick="goStep(2)" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="wizard-step" id="step2">
+      <div class="wizard-label">Step 2 of 3 — Sub-type</div>
+      <h2 class="wizard-title">What's your top priority?</h2>
+      <div class="wizard-options">
+        <button class="wizard-opt" onclick="selectPriority(this,'price')">💰 Lowest Price</button>
+        <button class="wizard-opt" onclick="selectPriority(this,'cover')">🛡️ Maximum Cover</button>
+        <button class="wizard-opt" onclick="selectPriority(this,'claims')">⚡ Fastest Claims</button>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-back" onclick="goStep(1)">← Back</button>
+        <button class="btn-primary" id="step2Next" onclick="goStep(3)" disabled>Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="wizard-step" id="step3">
+      <div class="wizard-label">Step 3 of 3 — Budget</div>
+      <h2 class="wizard-title">What's your monthly budget?</h2>
+      <p style="color:var(--ink-muted);font-size:14px;margin-bottom:20px;">We'll show plans that fit what you can afford.</p>
+      <div style="margin-bottom:20px;">
+        <div class="range-val" id="budgetDisplay">UGX 25,000 / month</div>
+        <input type="range" min="5000" max="70000" step="1000" value="25000" oninput="updateBudget(this.value)">
+        <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--ink-muted);margin-top:6px;"><span>UGX 5K</span><span>UGX 70K</span></div>
+      </div>
+      <div class="wizard-nav">
+        <button class="btn-back" onclick="goStep(2)">← Back</button>
+        <button class="btn-primary" onclick="finishWizard()">Show me plans →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LISTING -->
+<section class="listing-section" id="listingSection" style="display:none;">
+  <div class="listing-inner">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          Quote Calculator
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cover for</label>
+          <select class="form-control" onchange="applyFilters()">
+            <option>Myself</option>
+            <option>My Child</option>
+            <option>My Family</option>
+            <option>My Parents</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Age</label>
+          <input type="number" class="form-control" placeholder="32" min="1" max="99" value="32">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Plan type</label>
+          <select class="form-control" onchange="applyFilters()">
+            <option>Lite</option>
+            <option>Standard</option>
+            <option>Premium</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monthly budget</label>
+          <div class="range-wrap">
+            <div class="range-val" id="sidebarBudget">UGX 50,000</div>
+            <input type="range" min="5000" max="200000" step="1000" value="50000" id="sidebarRange" oninput="updateSidebarBudget(this.value)">
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+          Benefits
+        </div>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" value="opd" id="filterOPD" onchange="applyFilters()"> OPD (Outpatient)</label>
+          <label class="check-item"><input type="checkbox" value="dental" id="filterDental" onchange="applyFilters()"> Dental</label>
+          <label class="check-item"><input type="checkbox" value="optical" id="filterOptical" onchange="applyFilters()"> Optical</label>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Insurer</div>
+        <div class="check-group" id="insurerFilters"></div>
+      </div>
+      <div class="sidebar-section">
+        <div class="toggle-row">
+          <span style="font-size:14px;font-weight:500;">IPF Available</span>
+          <label class="toggle">
+            <input type="checkbox" id="filterIPF" onchange="applyFilters()">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <p style="font-size:12px;color:var(--ink-muted);margin-top:6px;">Insurance Premium Financing — pay in installments</p>
+      </div>
+      <button class="btn-primary" onclick="resetFilters()" style="width:100%;justify-content:center;">Clear filters</button>
+    </aside>
+
+    <!-- Main -->
+    <div class="listing-main">
+      <div class="active-filters" id="activeFilters"></div>
+      <div class="listing-toolbar">
+        <div class="listing-count">Showing <strong id="planCount">0</strong> plans</div>
+        <div class="toolbar-right">
+          <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+            <option value="recommended">Recommended</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="cover">Cover Score</option>
+            <option value="claims">Claims Score</option>
+          </select>
+          <div class="view-toggle">
+            <button class="view-btn active" onclick="setView('grid',this)" title="Grid">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zm10 0h8v8h-8zm0 10h8v8h-8zM3 13h8v8H3z"/></svg>
+            </button>
+            <button class="view-btn" onclick="setView('list',this)" title="List">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="2"/><rect x="3" y="11" width="18" height="2"/><rect x="3" y="18" width="18" height="2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw-section" id="howItWorks">
+  <div class="hiw-inner">
+    <div class="section-label">Simple process</div>
+    <h2 class="section-title">From quote to <em>covered</em> in minutes.</h2>
+    <p class="section-sub">No paperwork, no waiting. Just fast, digital insurance that works.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <div class="step-num">01</div>
+        <h3 class="step-title">Compare Plans</h3>
+        <p class="step-desc">Browse and filter plans from Uganda's top insurers in one place.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="step-num">02</div>
+        <h3 class="step-title">Get Your Quote</h3>
+        <p class="step-desc">Personalise your plan and see the exact monthly premium instantly.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        </div>
+        <div class="step-num">03</div>
+        <h3 class="step-title">Pay with Airtel Money</h3>
+        <p class="step-desc">One tap payment via Airtel Money or Ecobank. No bank visit needed.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="step-num">04</div>
+        <h3 class="step-title">You're Covered</h3>
+        <p class="step-desc">Receive your policy certificate instantly. Claim anytime via SMS or app.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <h3>Nxt<em style="color:var(--brand);">Insure</em></h3>
+        <p>Making insurance accessible and affordable for every family in East Africa.</p>
+        <div class="footer-partner-badge" id="partnerBadge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Powered by <span id="footerPartner">NxtInsure</span>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#">Health Insurance</a>
+        <a href="#">Motor Insurance</a>
+        <a href="#">Device Cover</a>
+        <a href="#">Life Insurance</a>
+        <a href="#">Travel Insurance</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">How it Works</a>
+        <a href="#">Our Insurers</a>
+        <a href="#">Claims</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+        <a href="#">Disclosures</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-reg">Regulated by Insurance Regulatory Authority of Uganda (IRA) · License No. IRA/2024/001</p>
+      <p class="footer-copy">© 2026 NxtInsure · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<!-- CHAT WIDGET -->
+<button class="chat-fab" onclick="toggleChat()" title="Get help">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <h4>NxtInsure Assistant</h4>
+    <p>We typically reply instantly</p>
+  </div>
+  <div class="chat-options">
+    <button class="chat-opt" onclick="openWizard('health');toggleChat()">🏥 Help me find health cover</button>
+    <button class="chat-opt" onclick="openWizard('motor');toggleChat()">🚗 I need motor insurance</button>
+    <button class="chat-opt">📋 Check my existing policy</button>
+  </div>
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mobile-tab active">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="mobile-tab" onclick="showListingAll()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Products
+    </button>
+    <button class="mobile-tab" onclick="window.location.href='compare.html'">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      Compare
+    </button>
+    <button class="mobile-tab">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Account
+    </button>
+  </div>
+</nav>
+
+<!-- COMPARE TRAY -->
+<div class="compare-tray" id="compareTray">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="tray-bubbles" id="trayBubbles">
+      <div class="tray-bubble" id="b1">+</div>
+      <div class="tray-bubble" id="b2">+</div>
+      <div class="tray-bubble" id="b3">+</div>
+    </div>
+    <span class="tray-info" id="trayInfo">Select 2–3 plans</span>
+  </div>
+  <div class="tray-actions">
+    <button class="btn-clear" onclick="clearCompare()">Clear</button>
+    <a href="compare.html" class="btn-primary" id="compareNowBtn">Compare now →</a>
+  </div>
+</div>
+
+<script>
+// ── DATA ──
+const products = [
+  { id:1, cat:'health', title:'J-Care Junior', insurer:'Jubilee Health', logo:'JH', color:'#E31C23', price:12000, badge:'Child Cover', tags:['opd'], coverScore:92, claimsScore:82, ipf:true, features:['OPD, dental & optical options','Designed for children 0–18','Online quote in 3 minutes'] },
+  { id:2, cat:'health', title:'AfyaImara Lite', insurer:'AAR Insurance', logo:'AAR', color:'#1D4ED8', price:18500, badge:'Popular', tags:['opd'], coverScore:84, claimsScore:88, ipf:true, features:['300+ hospital network','No waiting period','48-hour claim processing'] },
+  { id:3, cat:'health', title:'Health Lite', insurer:'ICEA Lion', logo:'IL', color:'#7C3AED', price:22000, badge:'Best Value', tags:['opd','dental'], coverScore:88, claimsScore:79, ipf:true, features:['5M inpatient limit','Dental add-on included','Family extension available'] },
+  { id:4, cat:'health', title:'Family Shield', insurer:'UAP Old Mutual', logo:'UAP', color:'#0891B2', price:45000, badge:'Premium', tags:['opd','dental','optical'], coverScore:96, claimsScore:76, ipf:false, features:['Full family cover','Regional hospital access','Dental & optical included'] },
+  { id:5, cat:'motor', title:'Third Party Motor', insurer:'Britam Uganda', logo:'BR', color:'#0F766E', price:42500, badge:'Mandatory', tags:[], coverScore:76, claimsScore:84, ipf:true, features:['Legal liability cover','Property damage UGX 10M','Instant certificate issued'] },
+  { id:6, cat:'motor', title:'Comprehensive Motor', insurer:'UAP Old Mutual', logo:'UAP', color:'#0891B2', price:185000, badge:'Full Cover', tags:[], coverScore:95, claimsScore:78, ipf:true, features:['Full vehicle repair cover','Roadside assistance 24/7','Accident replacement car'] },
+  { id:7, cat:'motor', title:'Motor Lite', insurer:'APA Insurance', logo:'APA', color:'#B45309', price:38000, badge:'Affordable', tags:[], coverScore:72, claimsScore:90, ipf:false, features:['Third party + fire & theft','Fast claims in 3 days','Available for bodas'] },
+  { id:8, cat:'device', title:'Screen Guard Pro', insurer:'ICEA Lion', logo:'IL', color:'#7C3AED', price:3200, badge:'New', tags:[], coverScore:70, claimsScore:92, ipf:false, features:['All-risk screen protection','Free pickup & delivery','3-day repair turnaround'] },
+  { id:9, cat:'device', title:'Gadget Shield', insurer:'Jubilee Health', logo:'JH', color:'#E31C23', price:4800, badge:'Popular', tags:[], coverScore:78, claimsScore:85, ipf:true, features:['Phone, laptop & tablet','Theft included','Replace within 7 days'] },
+  { id:10, cat:'life', title:'Term Life Plan', insurer:'UAP Old Mutual', logo:'UAP', color:'#0891B2', price:15000, badge:'Recommended', tags:[], coverScore:90, claimsScore:82, ipf:true, features:['UGX 50M death benefit','10–30 year term options','No medical exam under 45'] },
+  { id:11, cat:'life', title:'Family Benefit', insurer:'Jubilee Health', logo:'JH', color:'#E31C23', price:28000, badge:'Premium', tags:[], coverScore:94, claimsScore:80, ipf:false, features:['Covers spouse & children','Critical illness rider','Funeral advance payout'] }
+];
+
+// ── STATE ──
+let activeCat = null, activeSub = null, activePriority = null, activeBudget = 70000;
+let compareList = [];
+let currentView = 'grid';
+let filteredProducts = [...products];
+
+// Sub-options per category
+const subOpts = {
+  health: ['Child','Self','Family','Parents'],
+  motor: ['Private Car','Boda Boda','Commercial'],
+  device: ['Smartphone','Laptop','Tablet'],
+  life: ['Term Life','Funeral Cover','Family Benefit'],
+  travel: ['Single Trip','Annual Multi-trip','Business Travel'],
+  agriculture: ['Crop Insurance','Livestock','Farm Equipment']
+};
+const catNames = { health:'Health', motor:'Motor', device:'Device', life:'Life', travel:'Travel', agriculture:'Agriculture' };
+
+// ── SEARCH PLACEHOLDER CYCLE ──
+const placeholders = ['Try: health cover for my child','protect my phone','cheap motor insurance','life insurance for my family','boda boda cover'];
+let pIdx = 0;
+function cyclePlaceholder() {
+  const el = document.getElementById('heroSearch');
+  if (!el) return;
+  el.style.opacity = '0';
+  setTimeout(() => {
+    pIdx = (pIdx + 1) % placeholders.length;
+    el.placeholder = placeholders[pIdx];
+    el.style.opacity = '1';
+  }, 300);
+}
+setInterval(cyclePlaceholder, 2800);
+document.getElementById('heroSearch').style.transition = 'opacity 0.3s';
+
+// ── PARTNER / THEME ──
+function setPartner(partner, btn) {
+  document.documentElement.setAttribute('data-partner', partner);
+  localStorage.setItem('nxtinsure_partner', partner);
+  document.querySelectorAll('.theme-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const names = { nxtinsure:'NxtInsure', airtel:'Airtel Money', ecobank:'Ecobank' };
+  const pName = names[partner] || 'NxtInsure';
+  document.querySelectorAll('.partner-name').forEach(el => el.textContent = pName);
+  document.getElementById('footerPartner').textContent = pName;
+}
+function setCountry(val) {
+  localStorage.setItem('nxtinsure_country', val);
+}
+
+// ── INIT ──
+(function init() {
+  const p = localStorage.getItem('nxtinsure_partner') || 'nxtinsure';
+  const btn = document.querySelector(`.theme-tab[data-partner="${p}"]`);
+  setPartner(p, btn);
+  const c = localStorage.getItem('nxtinsure_country') || 'UG';
+  document.getElementById('countrySelect').value = c;
+  buildInsurerFilters();
+})();
+
+// ── WIZARD ──
+function openWizard(cat) {
+  activeCat = cat;
+  activeSub = null; activePriority = null;
+  document.getElementById('stepCatName').textContent = catNames[cat] || cat;
+  // Populate step 1 options
+  const opts = subOpts[cat] || ['Option 1','Option 2'];
+  const container = document.getElementById('step1Options');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'wizard-opt';
+    btn.textContent = opt;
+    btn.onclick = function() {
+      container.querySelectorAll('.wizard-opt').forEach(b => b.classList.remove('selected'));
+      this.classList.add('selected');
+      activeSub = opt;
+      document.getElementById('step1Next').disabled = false;
+    };
+    container.appendChild(btn);
+  });
+  document.getElementById('step1Next').disabled = true;
+  goStep(1);
+  document.getElementById('wizardOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeWizard() {
+  document.getElementById('wizardOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeWizardOnBg(e) {
+  if (e.target === document.getElementById('wizardOverlay')) closeWizard();
+}
+function goStep(n) {
+  document.querySelectorAll('.wizard-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  document.getElementById('progressFill').style.width = (n * 33.3) + '%';
+  if (n === 2) {
+    document.getElementById('step2Next').disabled = true;
+    document.querySelectorAll('#step2 .wizard-opt').forEach(b => b.classList.remove('selected'));
+  }
+}
+function selectPriority(btn, val) {
+  document.querySelectorAll('#step2 .wizard-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  activePriority = val;
+  document.getElementById('step2Next').disabled = false;
+}
+function updateBudget(val) {
+  activeBudget = parseInt(val);
+  document.getElementById('budgetDisplay').textContent = 'UGX ' + parseInt(val).toLocaleString() + ' / month';
+}
+function finishWizard() {
+  document.getElementById('progressFill').style.width = '100%';
+  closeWizard();
+  showListing(activeCat);
+}
+function showListingAll() {
+  activeCat = null;
+  showListing(null);
+}
+function showListing(cat) {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('listingSection').style.display = 'block';
+  document.getElementById('listingSection').scrollIntoView({ behavior: 'smooth' });
+  activeCat = cat;
+  applyFilters();
+}
+function handleSearch() {
+  const q = document.getElementById('heroSearch').value.toLowerCase();
+  if (!q) return;
+  showListing(null);
+}
+
+// ── FILTERS & RENDER ──
+function buildInsurerFilters() {
+  const insurers = [...new Set(products.map(p => p.insurer))];
+  const container = document.getElementById('insurerFilters');
+  container.innerHTML = '';
+  insurers.forEach(ins => {
+    const lbl = document.createElement('label');
+    lbl.className = 'check-item';
+    lbl.innerHTML = `<input type="checkbox" value="${ins}" onchange="applyFilters()"> ${ins}`;
+    container.appendChild(lbl);
+  });
+}
+function updateSidebarBudget(val) {
+  document.getElementById('sidebarBudget').textContent = 'UGX ' + parseInt(val).toLocaleString();
+  applyFilters();
+}
+function applyFilters() {
+  const budget = parseInt(document.getElementById('sidebarRange').value);
+  const ipfOnly = document.getElementById('filterIPF').checked;
+  const opd = document.getElementById('filterOPD').checked;
+  const dental = document.getElementById('filterDental').checked;
+  const optical = document.getElementById('filterOptical').checked;
+  const checkedInsurers = [...document.querySelectorAll('#insurerFilters input:checked')].map(i => i.value);
+  const sort = document.getElementById('sortSelect').value;
+
+  let filtered = products.filter(p => {
+    if (activeCat && p.cat !== activeCat) return false;
+    if (p.price > budget) return false;
+    if (ipfOnly && !p.ipf) return false;
+    if (opd && !p.tags.includes('opd')) return false;
+    if (dental && !p.tags.includes('dental')) return false;
+    if (optical && !p.tags.includes('optical')) return false;
+    if (checkedInsurers.length && !checkedInsurers.includes(p.insurer)) return false;
+    return true;
+  });
+
+  // Sort
+  if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+  else if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+  else if (sort === 'cover') filtered.sort((a,b) => b.coverScore - a.coverScore);
+  else if (sort === 'claims') filtered.sort((a,b) => b.claimsScore - a.claimsScore);
+
+  filteredProducts = filtered;
+  renderCards(filtered);
+  updateActiveFilters();
+}
+function updateActiveFilters() {
+  const tags = [];
+  if (activeCat) tags.push({ label: catNames[activeCat], key:'cat' });
+  const ipfOnly = document.getElementById('filterIPF').checked;
+  if (ipfOnly) tags.push({ label: 'IPF Available', key:'ipf' });
+  const container = document.getElementById('activeFilters');
+  container.innerHTML = tags.map(t =>
+    `<div class="filter-tag">${t.label} <span class="filter-tag-remove" onclick="removeFilter('${t.key}')">×</span></div>`
+  ).join('');
+}
+function removeFilter(key) {
+  if (key === 'cat') { activeCat = null; }
+  if (key === 'ipf') { document.getElementById('filterIPF').checked = false; }
+  applyFilters();
+}
+function resetFilters() {
+  activeCat = null;
+  document.getElementById('filterIPF').checked = false;
+  document.getElementById('filterOPD').checked = false;
+  document.getElementById('filterDental').checked = false;
+  document.getElementById('filterOptical').checked = false;
+  document.getElementById('sidebarRange').value = 200000;
+  document.getElementById('sidebarBudget').textContent = 'UGX 200,000';
+  document.querySelectorAll('#insurerFilters input').forEach(i => i.checked = false);
+  document.getElementById('sortSelect').value = 'recommended';
+  applyFilters();
+}
+function setView(view, btn) {
+  currentView = view;
+  document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const grid = document.getElementById('cardsGrid');
+  if (view === 'list') grid.classList.add('list-view');
+  else grid.classList.remove('list-view');
+}
+
+function badgeClass(badge) {
+  const b = badge.toLowerCase();
+  if (b.includes('mandatory')) return 'mandatory';
+  if (b.includes('popular')) return 'popular';
+  if (b.includes('premium')) return 'premium';
+  if (b.includes('new')) return 'new';
+  return '';
+}
+
+function renderCards(data) {
+  const grid = document.getElementById('cardsGrid');
+  document.getElementById('planCount').textContent = data.length;
+  if (!data.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--ink-muted);">
+      <div style="font-size:48px;margin-bottom:16px;">🔍</div>
+      <h3 style="font-size:20px;margin-bottom:8px;">No plans found</h3>
+      <p>Try adjusting your filters or budget.</p>
+      <button class="btn-primary" onclick="resetFilters()" style="margin-top:20px;">Reset filters</button>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = data.map(p => `
+    <div class="product-card ${compareList.includes(p.id)?'compare-selected':''}" id="card-${p.id}">
+      <div class="card-header">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="insurer-logo" style="background:${p.color}">${p.logo}</div>
+          <div>
+            <div class="card-insurer">${p.insurer}</div>
+            ${p.ipf ? '<span class="ipf-tag">IPF Available</span>' : ''}
+          </div>
+        </div>
+        <span class="badge-pill ${badgeClass(p.badge)}">${p.badge}</span>
+      </div>
+      <h3 class="card-title">${p.title}</h3>
+      <div class="card-price">
+        <span class="price-amount">UGX ${p.price.toLocaleString()}</span>
+        <span class="price-period">/ mo</span>
+      </div>
+      <div class="card-features">
+        ${p.features.map(f => `<div class="feature-item"><span class="feature-dot"></span>${f}</div>`).join('')}
+      </div>
+      <div class="card-scores">
+        <div class="score-row">
+          <span class="score-label">Cover Score</span>
+          <div class="score-bar"><div class="score-fill" style="width:${p.coverScore}%"></div></div>
+          <span class="score-val">${p.coverScore}</span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Claims Score</span>
+          <div class="score-bar"><div class="score-fill claims" style="width:${p.claimsScore}%"></div></div>
+          <span class="score-val">${p.claimsScore}</span>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn-outline ${compareList.includes(p.id)?'compare-active':''}" onclick="toggleCompare(${p.id})">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/></svg>
+          ${compareList.includes(p.id)?'Remove':'Add to Compare'}
+        </button>
+        <a href="pdp.html" class="btn-view">View Details →</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── COMPARE ──
+function toggleCompare(id) {
+  const idx = compareList.indexOf(id);
+  if (idx > -1) {
+    compareList.splice(idx, 1);
+  } else {
+    if (compareList.length >= 3) { alert('You can compare up to 3 plans.'); return; }
+    compareList.push(id);
+  }
+  updateCompareTray();
+  applyFilters();
+}
+function clearCompare() {
+  compareList = [];
+  updateCompareTray();
+  applyFilters();
+}
+function updateCompareTray() {
+  const tray = document.getElementById('compareTray');
+  const bubbles = ['b1','b2','b3'];
+  bubbles.forEach((bid, i) => {
+    const el = document.getElementById(bid);
+    if (compareList[i]) {
+      const p = products.find(x => x.id === compareList[i]);
+      el.className = 'tray-bubble filled';
+      el.textContent = p.logo;
+      el.style.background = p.color + '22';
+      el.style.borderColor = p.color;
+      el.style.color = p.color;
+    } else {
+      el.className = 'tray-bubble';
+      el.textContent = '+';
+      el.style.background = '';
+      el.style.borderColor = '';
+      el.style.color = '';
+    }
+  });
+  document.getElementById('trayInfo').textContent = compareList.length > 0
+    ? `${compareList.length} plan${compareList.length>1?'s':''} selected`
+    : 'Select 2–3 plans';
+  if (compareList.length >= 2) {
+    tray.classList.add('visible');
+    document.getElementById('compareNowBtn').href = 'compare.html?ids=' + compareList.join(',');
+  } else {
+    tray.classList.remove('visible');
+  }
+}
+
+// ── CHAT ──
+function toggleChat() {
+  document.getElementById('chatPanel').classList.toggle('open');
+}
+</script>
+</body>
+</html>

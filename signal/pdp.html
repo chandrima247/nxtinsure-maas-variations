@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en" data-partner="nxtinsure">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>J-Care Junior — Jubilee Health | NxtInsure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --brand: #0EA5E9;
+  --brand-dark: #0284C7;
+  --brand-light: #E0F2FE;
+  --brand-text: #ffffff;
+  --bg: #FFFFFF;
+  --surface: #F8F9FA;
+  --ink: #0F172A;
+  --ink-muted: #64748B;
+  --border: #E2E8F0;
+  --success: #059669;
+  --insurer: #E31C23;
+  --radius-card: 12px;
+  --radius-input: 8px;
+  --shadow: 0 1px 3px rgba(15,23,42,0.08), 0 4px 12px rgba(15,23,42,0.05);
+  --shadow-lg: 0 4px 16px rgba(15,23,42,0.12), 0 8px 32px rgba(15,23,42,0.08);
+}
+[data-partner="airtel"] { --brand:#E31C23; --brand-dark:#B91C1C; --brand-light:#FEE2E2; --brand-text:#ffffff; }
+[data-partner="ecobank"] { --brand:#005B30; --brand-dark:#004023; --brand-light:#DCFCE7; --brand-text:#ffffff; }
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--ink); line-height:1.5; -webkit-font-smoothing:antialiased; }
+a { color:inherit; text-decoration:none; }
+button { cursor:pointer; font-family:inherit; }
+
+/* NAV */
+.top-nav {
+  position:sticky; top:0; z-index:100;
+  height:64px; background:var(--bg);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; padding:0 24px; gap:16px;
+}
+.nav-logo { font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:22px; color:var(--ink); letter-spacing:-0.5px; }
+.nav-logo span { color:var(--brand); }
+.nav-back {
+  display:flex; align-items:center; gap:6px;
+  font-size:14px; font-weight:600; color:var(--ink-muted);
+  border:1px solid var(--border); border-radius:8px;
+  padding:6px 12px; margin-left:auto;
+  transition:all 0.15s;
+}
+.nav-back:hover { color:var(--ink); border-color:var(--ink); }
+.theme-switcher {
+  display:flex; background:var(--surface); border-radius:8px; padding:3px; gap:2px;
+}
+.theme-btn {
+  padding:5px 12px; border:none; background:none;
+  border-radius:6px; font-size:12px; font-weight:600;
+  color:var(--ink-muted); transition:all 0.15s; white-space:nowrap;
+}
+.theme-btn.active { background:var(--brand); color:var(--brand-text); box-shadow:0 1px 4px rgba(0,0,0,0.15); }
+
+/* HERO BAND */
+.hero-band {
+  background: linear-gradient(135deg, var(--insurer) 0%, color-mix(in srgb, var(--insurer) 70%, #000) 100%);
+  padding:32px 24px 24px;
+}
+@media (min-width:640px) { .hero-band { padding:40px 40px 32px; } }
+.hero-band-inner { max-width:1100px; margin:0 auto; }
+.breadcrumb {
+  display:flex; align-items:center; gap:8px;
+  font-size:12px; color:rgba(255,255,255,0.7);
+  margin-bottom:16px;
+}
+.breadcrumb a { color:rgba(255,255,255,0.7); }
+.breadcrumb a:hover { color:#fff; }
+.breadcrumb-sep { opacity:0.5; }
+.hero-top-row {
+  display:flex; align-items:flex-start;
+  justify-content:space-between; gap:16px;
+  margin-bottom:16px;
+}
+.plan-badge-row { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.plan-chip {
+  padding:4px 12px; border-radius:999px;
+  background:rgba(255,255,255,0.2);
+  font-size:11px; font-weight:700; color:#fff;
+  font-family:'Space Grotesk',sans-serif; letter-spacing:0.05em;
+}
+.plan-chip.highlight { background:#fff; color:var(--insurer); }
+.hero-plan-name {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:clamp(28px,5vw,44px);
+  color:#fff; letter-spacing:-1px; line-height:1.1;
+}
+.hero-insurer {
+  font-size:15px; font-weight:600; color:rgba(255,255,255,0.85);
+  margin-top:6px;
+}
+.hero-insurer-logo {
+  width:48px; height:48px; border-radius:12px;
+  background:rgba(255,255,255,0.2);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:14px; color:#fff;
+  flex-shrink:0;
+}
+.star-rating { display:flex; align-items:center; gap:6px; margin-top:10px; }
+.stars { color:#FCD34D; font-size:18px; letter-spacing:2px; }
+.star-text { font-size:13px; color:rgba(255,255,255,0.8); font-weight:500; }
+
+/* HERO CONTENT GRID */
+.hero-content {
+  max-width:1100px; margin:-24px auto 0;
+  padding:0 24px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+}
+@media (min-width:1024px) {
+  .hero-content { grid-template-columns:1fr 380px; margin-top:-32px; padding:0 40px; }
+}
+
+/* BENEFIT CHIPS */
+.benefit-chips-card {
+  background:#fff;
+  border-radius:var(--radius-card);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  padding:24px;
+}
+.benefit-chips-title {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:13px;
+  text-transform:uppercase; letter-spacing:0.08em;
+  color:var(--ink-muted); margin-bottom:14px;
+}
+.benefit-chips { display:flex; flex-wrap:wrap; gap:10px; }
+.benefit-chip {
+  display:flex; align-items:center; gap:8px;
+  padding:12px 16px;
+  background:var(--brand-light);
+  border-radius:10px;
+  flex:1; min-width:140px;
+}
+.benefit-chip-icon { font-size:22px; }
+.benefit-chip-text { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:13px; color:var(--ink); }
+.benefit-chip-sub { font-size:11px; color:var(--ink-muted); font-weight:500; }
+
+/* QUOTE CARD */
+.quote-card {
+  background:#fff;
+  border-radius:var(--radius-card);
+  border:2px solid var(--brand);
+  box-shadow:var(--shadow-lg);
+  padding:24px;
+  position:sticky; top:80px;
+}
+.quote-card-label {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:11px;
+  text-transform:uppercase; letter-spacing:0.1em;
+  color:var(--ink-muted); margin-bottom:12px;
+}
+.quote-price-display {
+  margin-bottom:20px;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--border);
+}
+.quote-price-main {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:40px;
+  color:var(--brand); letter-spacing:-1.5px; line-height:1;
+}
+.quote-price-unit { font-size:15px; color:var(--ink-muted); margin-top:4px; font-weight:500; }
+.ipf-option {
+  margin-top:10px; display:flex; align-items:center; gap:8px;
+  padding:10px 14px;
+  background:#FEF3C7; border-radius:8px;
+  border:1.5px solid #F59E0B;
+}
+.ipf-option-text { font-size:13px; font-weight:600; color:#92400E; }
+.ipf-option-price {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:16px; color:#92400E;
+}
+.quote-form { display:flex; flex-direction:column; gap:12px; margin-bottom:16px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-label { font-size:12px; font-weight:600; color:var(--ink-muted); text-transform:uppercase; letter-spacing:0.05em; }
+.form-input, .form-select {
+  padding:12px 14px;
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-input);
+  font-size:14px; font-weight:500;
+  color:var(--ink);
+  background:#fff;
+  font-family:'Inter',sans-serif;
+  transition:border-color 0.15s;
+  outline:none;
+}
+.form-input:focus, .form-select:focus { border-color:var(--brand); }
+.get-covered-btn {
+  width:100%; padding:16px;
+  background:var(--brand); color:var(--brand-text);
+  border:none; border-radius:var(--radius-input);
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:16px;
+  transition:opacity 0.15s;
+}
+.get-covered-btn:hover { opacity:0.9; }
+.quote-trust {
+  display:flex; align-items:center; gap:6px;
+  justify-content:center;
+  font-size:12px; color:var(--ink-muted);
+  margin-top:12px; font-weight:500;
+}
+
+/* TABS */
+.tabs-container {
+  max-width:1100px; margin:32px auto 0;
+  padding:0 24px;
+}
+@media (min-width:1024px) { .tabs-container { padding:0 40px; } }
+.tabs-nav {
+  display:flex; gap:6px;
+  overflow-x:auto; padding-bottom:4px;
+  scrollbar-width:none; margin-bottom:24px;
+}
+.tabs-nav::-webkit-scrollbar { display:none; }
+.tab-pill {
+  flex-shrink:0; padding:10px 20px;
+  border-radius:999px;
+  border:1.5px solid var(--border);
+  background:#fff;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:13px;
+  color:var(--ink-muted);
+  cursor:pointer; transition:all 0.15s;
+}
+.tab-pill.active {
+  background:var(--brand); border-color:var(--brand);
+  color:var(--brand-text);
+}
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+/* OVERVIEW */
+.stats-row {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px; margin-bottom:28px;
+}
+@media (min-width:640px) { .stats-row { grid-template-columns:repeat(4,1fr); } }
+.stat-card {
+  background:var(--surface);
+  border-radius:var(--radius-card);
+  border:1px solid var(--border);
+  padding:16px;
+}
+.stat-val {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:22px;
+  color:var(--ink); letter-spacing:-0.5px;
+}
+.stat-label { font-size:12px; color:var(--ink-muted); font-weight:500; margin-top:4px; }
+.section-head {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:20px;
+  color:var(--ink); margin-bottom:16px; letter-spacing:-0.3px;
+}
+.overview-text { font-size:14px; color:var(--ink-muted); line-height:1.7; margin-bottom:24px; max-width:640px; }
+
+/* TIERS TABLE */
+.tiers-table { width:100%; border-collapse:collapse; margin-bottom:32px; overflow:hidden; border-radius:12px; border:1px solid var(--border); }
+.tiers-table th {
+  background:var(--surface);
+  padding:14px 16px;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:13px; text-align:left;
+  color:var(--ink); border-bottom:1px solid var(--border);
+}
+.tiers-table th.highlight { background:var(--brand-light); color:var(--brand); }
+.tiers-table td {
+  padding:12px 16px;
+  font-size:13px; color:var(--ink-muted);
+  border-bottom:1px solid var(--border);
+  border-right:1px solid var(--border);
+}
+.tiers-table td.attr { font-weight:600; color:var(--ink); background:var(--surface); }
+.tiers-table td.highlight { background:#F0F9FF; }
+.tiers-table tr:last-child td { border-bottom:none; }
+.tier-price {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:18px; color:var(--brand);
+}
+
+/* BENEFITS GRID */
+.benefits-grid {
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+}
+@media (min-width:640px) { .benefits-grid { grid-template-columns:repeat(3,1fr); } }
+.benefit-item {
+  background:var(--surface);
+  border-radius:var(--radius-card);
+  border:1px solid var(--border);
+  padding:20px;
+  display:flex; flex-direction:column; gap:10px;
+}
+.benefit-icon { font-size:28px; }
+.benefit-name {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:15px; color:var(--ink);
+}
+.benefit-desc { font-size:13px; color:var(--ink-muted); line-height:1.5; }
+
+/* CLAIMS STEPS */
+.claims-steps { display:flex; flex-direction:column; gap:0; }
+.claim-step {
+  display:flex; gap:20px; align-items:flex-start;
+  padding:24px 0;
+  border-bottom:1px solid var(--border);
+}
+.claim-step:last-child { border-bottom:none; }
+.claim-step-num {
+  width:48px; height:48px; border-radius:12px;
+  background:var(--brand); color:var(--brand-text);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:20px;
+  flex-shrink:0;
+}
+.claim-step-body h4 {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:16px; color:var(--ink);
+  margin-bottom:6px;
+}
+.claim-step-body p { font-size:14px; color:var(--ink-muted); line-height:1.6; }
+.claim-tag {
+  display:inline-block; margin-top:8px;
+  padding:4px 10px; border-radius:999px;
+  background:var(--brand-light); color:var(--brand);
+  font-size:11px; font-weight:700;
+  font-family:'Space Grotesk',sans-serif;
+}
+
+/* REVIEWS */
+.rating-summary {
+  display:flex; align-items:center; gap:24px;
+  padding:24px; background:var(--surface);
+  border-radius:var(--radius-card); border:1px solid var(--border);
+  margin-bottom:20px;
+}
+.big-score {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:900; font-size:64px; color:var(--ink);
+  letter-spacing:-3px; line-height:1;
+}
+.rating-details { flex:1; }
+.rating-bar-row {
+  display:flex; align-items:center; gap:10px;
+  font-size:12px; color:var(--ink-muted);
+  margin-bottom:6px;
+}
+.rating-bar-track {
+  flex:1; height:6px; background:var(--border);
+  border-radius:999px; overflow:hidden;
+}
+.rating-bar-fill { height:100%; background:var(--brand); border-radius:999px; }
+.reviews-grid { display:flex; flex-direction:column; gap:14px; }
+.review-card {
+  background:#fff; border-radius:var(--radius-card);
+  border:1px solid var(--border); padding:20px;
+  box-shadow:var(--shadow);
+}
+.review-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.reviewer-avatar {
+  width:40px; height:40px; border-radius:50%;
+  background:var(--brand); color:var(--brand-text);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:15px; flex-shrink:0;
+}
+.reviewer-name { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:var(--ink); }
+.reviewer-meta { font-size:12px; color:var(--ink-muted); margin-top:2px; }
+.review-stars { color:#FCD34D; font-size:14px; margin-left:auto; }
+.review-text { font-size:14px; color:var(--ink-muted); line-height:1.6; }
+
+/* DOCUMENTS */
+.docs-list { display:flex; flex-direction:column; gap:10px; }
+.doc-item {
+  display:flex; align-items:center; gap:14px;
+  padding:16px; background:var(--surface);
+  border-radius:var(--radius-card); border:1px solid var(--border);
+  cursor:pointer; transition:border-color 0.15s;
+}
+.doc-item:hover { border-color:var(--brand); }
+.doc-icon {
+  width:40px; height:40px; background:var(--brand-light);
+  border-radius:8px; display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.doc-name { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:14px; color:var(--ink); }
+.doc-size { font-size:12px; color:var(--ink-muted); margin-top:2px; }
+.doc-download { margin-left:auto; color:var(--brand); }
+
+/* MOBILE STICKY BAR */
+.mobile-sticky-bar {
+  display:none;
+  position:fixed; bottom:0; left:0; right:0; z-index:98;
+  background:#fff; border-top:1px solid var(--border);
+  padding:12px 24px env(safe-area-inset-bottom,12px);
+}
+@media (max-width:1023px) {
+  .mobile-sticky-bar { display:flex; align-items:center; gap:16px; }
+  body { padding-bottom:72px; }
+}
+.sticky-price {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:24px; color:var(--brand);
+  letter-spacing:-0.5px;
+}
+.sticky-unit { font-size:12px; color:var(--ink-muted); font-weight:500; }
+.sticky-cta {
+  flex:1; padding:14px;
+  background:var(--brand); color:var(--brand-text);
+  border:none; border-radius:var(--radius-input);
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:15px;
+}
+
+/* MODAL */
+.modal-overlay {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(15,23,42,0.5);
+  display:flex; align-items:flex-end;
+  opacity:0; pointer-events:none;
+  transition:opacity 0.25s;
+}
+@media (min-width:640px) { .modal-overlay { align-items:center; justify-content:center; } }
+.modal-overlay.open { opacity:1; pointer-events:all; }
+.modal-sheet {
+  background:#fff;
+  border-radius:20px 20px 0 0;
+  padding:24px; width:100%; max-height:90vh; overflow-y:auto;
+  transform:translateY(100%);
+  transition:transform 0.3s ease;
+}
+@media (min-width:640px) {
+  .modal-sheet { border-radius:20px; width:480px; max-height:80vh; transform:scale(0.95); }
+  .modal-overlay.open .modal-sheet { transform:scale(1); }
+}
+.modal-overlay.open .modal-sheet { transform:translateY(0); }
+.modal-handle {
+  width:40px; height:4px; background:var(--border);
+  border-radius:999px; margin:0 auto 20px;
+}
+.modal-title {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:22px; color:var(--ink);
+  margin-bottom:6px; letter-spacing:-0.5px;
+}
+.modal-subtitle { font-size:14px; color:var(--ink-muted); margin-bottom:24px; }
+.modal-form { display:flex; flex-direction:column; gap:14px; }
+.modal-submit {
+  padding:16px; background:var(--brand); color:var(--brand-text);
+  border:none; border-radius:var(--radius-input);
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:16px; margin-top:8px;
+}
+.modal-close {
+  position:absolute; top:20px; right:20px;
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:50%; width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; color:var(--ink-muted);
+}
+.modal-sheet { position:relative; }
+
+/* SUCCESS STATE */
+.success-state {
+  display:none; flex-direction:column; align-items:center;
+  text-align:center; padding:32px 0;
+}
+.success-state.show { display:flex; }
+.success-icon {
+  width:80px; height:80px; border-radius:50%;
+  background:var(--success); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:36px; margin-bottom:20px;
+}
+.success-title {
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:800; font-size:24px; color:var(--ink);
+  margin-bottom:8px;
+}
+.success-sub { font-size:15px; color:var(--ink-muted); max-width:300px; line-height:1.6; }
+
+/* BOTTOM TABS (mobile) */
+.bottom-tabs {
+  display:none;
+  position:fixed; bottom:72px; left:0; right:0; z-index:100;
+  background:#fff; border-top:1px solid var(--border);
+  padding:8px 0;
+}
+/* Not shown on PDP — sticky bar takes bottom */
+
+.slide-up { opacity:0; transform:translateY(20px); }
+.slide-up.in { opacity:1; transform:translateY(0); transition:opacity 0.5s, transform 0.5s; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="index.html" class="nav-logo">Nxt<span>Insure</span></a>
+  <div class="theme-switcher" style="margin-left:auto">
+    <button class="theme-btn" data-theme="airtel" onclick="switchTheme('airtel')">Airtel</button>
+    <button class="theme-btn" data-theme="ecobank" onclick="switchTheme('ecobank')">Ecobank</button>
+    <button class="theme-btn active" data-theme="nxtinsure" onclick="switchTheme('nxtinsure')">NxtInsure</button>
+  </div>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back
+  </a>
+</nav>
+
+<!-- HERO BAND -->
+<div class="hero-band">
+  <div class="hero-band-inner">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="index.html">Health</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>J-Care Junior</span>
+    </div>
+    <div class="hero-top-row">
+      <div>
+        <div class="plan-badge-row">
+          <span class="plan-chip highlight">Child Cover</span>
+          <span class="plan-chip">Jubilee Health</span>
+          <span class="plan-chip">IRA Regulated</span>
+        </div>
+        <div class="hero-plan-name">J-Care Junior</div>
+        <div class="hero-insurer">by Jubilee Health Insurance</div>
+        <div class="star-rating">
+          <span class="stars">★★★★★</span>
+          <span class="star-text">4.8 · 312 reviews</span>
+        </div>
+      </div>
+      <div class="hero-insurer-logo">JH</div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO CONTENT -->
+<div class="hero-content">
+
+  <!-- LEFT: BENEFIT CHIPS -->
+  <div class="benefit-chips-card slide-up">
+    <div class="benefit-chips-title">What you're covered for</div>
+    <div class="benefit-chips">
+      <div class="benefit-chip">
+        <div class="benefit-chip-icon">🏥</div>
+        <div>
+          <div class="benefit-chip-text">UGX 10M Inpatient</div>
+          <div class="benefit-chip-sub">Full hospitalisation cover</div>
+        </div>
+      </div>
+      <div class="benefit-chip">
+        <div class="benefit-chip-icon">🦷</div>
+        <div>
+          <div class="benefit-chip-text">Dental &amp; OPD</div>
+          <div class="benefit-chip-sub">Outpatient included</div>
+        </div>
+      </div>
+      <div class="benefit-chip">
+        <div class="benefit-chip-icon">👶</div>
+        <div>
+          <div class="benefit-chip-text">Ages 0–18</div>
+          <div class="benefit-chip-sub">Children &amp; teens</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: QUOTE CARD -->
+  <div class="quote-card slide-up">
+    <div class="quote-card-label">Your monthly premium</div>
+    <div class="quote-price-display">
+      <div class="quote-price-main">UGX 12,000</div>
+      <div class="quote-price-unit">per month · child plan</div>
+      <div class="ipf-option">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <div>
+          <div class="ipf-option-text">Pay daily instead</div>
+          <div class="ipf-option-price">UGX 400 / day</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-form">
+      <div class="form-group">
+        <label class="form-label">Child's full name</label>
+        <input class="form-input" type="text" placeholder="e.g. Aisha Nakato">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date of birth</label>
+        <input class="form-input" type="date">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your phone number</label>
+        <input class="form-input" type="tel" placeholder="+256 700 000 000">
+      </div>
+    </div>
+    <button class="get-covered-btn" onclick="openModal()">Get Covered &rarr;</button>
+    <div class="quote-trust">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Secured by SSL · IRA Licensed
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-container">
+  <div class="tabs-nav">
+    <button class="tab-pill active" onclick="switchTab('overview', this)">Overview</button>
+    <button class="tab-pill" onclick="switchTab('benefits', this)">Benefits</button>
+    <button class="tab-pill" onclick="switchTab('claims', this)">Claims</button>
+    <button class="tab-pill" onclick="switchTab('reviews', this)">Reviews</button>
+    <button class="tab-pill" onclick="switchTab('documents', this)">Documents</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="tab-panel active" id="tab-overview">
+    <div class="stats-row">
+      <div class="stat-card slide-up">
+        <div class="stat-val">UGX 10M</div>
+        <div class="stat-label">Inpatient cover limit</div>
+      </div>
+      <div class="stat-card slide-up">
+        <div class="stat-val">300+</div>
+        <div class="stat-label">Hospital network</div>
+      </div>
+      <div class="stat-card slide-up">
+        <div class="stat-val">48hrs</div>
+        <div class="stat-label">Claims turnaround</div>
+      </div>
+      <div class="stat-card slide-up">
+        <div class="stat-val">0–18</div>
+        <div class="stat-label">Eligible age range</div>
+      </div>
+    </div>
+    <div class="section-head slide-up">About J-Care Junior</div>
+    <p class="overview-text slide-up">J-Care Junior is Jubilee Health's flagship child health plan, designed to give parents complete peace of mind. From routine outpatient visits to major hospitalisation, J-Care covers your child at every step — with fast digital claims and access to Uganda's widest hospital network.</p>
+
+    <div class="section-head slide-up">Plan Tiers</div>
+    <div style="overflow-x:auto">
+    <table class="tiers-table slide-up">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="highlight">Junior Lite ★</th>
+          <th>Junior Plus</th>
+          <th>Junior Premier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="attr">Monthly premium</td>
+          <td class="highlight"><span class="tier-price">UGX 12,000</span></td>
+          <td>UGX 22,000</td>
+          <td>UGX 38,000</td>
+        </tr>
+        <tr>
+          <td class="attr">Inpatient limit</td>
+          <td class="highlight">UGX 10M</td>
+          <td>UGX 20M</td>
+          <td>UGX 50M</td>
+        </tr>
+        <tr>
+          <td class="attr">OPD visits</td>
+          <td class="highlight">12/year</td>
+          <td>Unlimited</td>
+          <td>Unlimited</td>
+        </tr>
+        <tr>
+          <td class="attr">Dental</td>
+          <td class="highlight">Optional</td>
+          <td>Included</td>
+          <td>Full cover</td>
+        </tr>
+        <tr>
+          <td class="attr">Optical</td>
+          <td class="highlight">—</td>
+          <td>Optional</td>
+          <td>Included</td>
+        </tr>
+        <tr>
+          <td class="attr">IPF (pay daily)</td>
+          <td class="highlight">✓ UGX 400/day</td>
+          <td>✓ UGX 733/day</td>
+          <td>✓ UGX 1,267/day</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="tab-panel" id="tab-benefits">
+    <div class="section-head slide-up">All covered benefits</div>
+    <div class="benefits-grid">
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">🏥</div>
+        <div class="benefit-name">Inpatient Care</div>
+        <div class="benefit-desc">Full hospitalisation including surgery, ICU, and specialist consultations up to UGX 10M.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">💊</div>
+        <div class="benefit-name">Outpatient (OPD)</div>
+        <div class="benefit-desc">Up to 12 outpatient visits per year including consultations, tests, and medicines.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">🦷</div>
+        <div class="benefit-name">Dental (Add-on)</div>
+        <div class="benefit-desc">Routine check-ups, fillings, and extractions. Available as optional rider at UGX 2,000/mo.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">🚑</div>
+        <div class="benefit-name">Emergency Cover</div>
+        <div class="benefit-desc">24/7 emergency ambulance and casualty cover including road traffic accidents.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">💉</div>
+        <div class="benefit-name">Immunisation</div>
+        <div class="benefit-desc">All WHO-schedule childhood vaccines covered at no additional cost.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">🌍</div>
+        <div class="benefit-name">East Africa Cover</div>
+        <div class="benefit-desc">Emergency hospitalisation cover in Kenya, Tanzania, and Rwanda included.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">📱</div>
+        <div class="benefit-name">Digital Claims</div>
+        <div class="benefit-desc">File and track claims via the NxtInsure app. Most claims resolved in 48 hours.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">🔄</div>
+        <div class="benefit-name">No Waiting Period</div>
+        <div class="benefit-desc">Cover starts immediately on activation. No pre-existing condition exclusion under age 5.</div>
+      </div>
+      <div class="benefit-item slide-up">
+        <div class="benefit-icon">👨‍👩‍👧</div>
+        <div class="benefit-name">Family Upgrade</div>
+        <div class="benefit-desc">Add parents to a Family Shield plan at preferential rate with existing child cover.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLAIMS -->
+  <div class="tab-panel" id="tab-claims">
+    <div class="section-head slide-up">How to make a claim</div>
+    <div class="claims-steps">
+      <div class="claim-step slide-up">
+        <div class="claim-step-num">1</div>
+        <div class="claim-step-body">
+          <h4>Notify us within 48 hours</h4>
+          <p>Call our 24/7 helpline on 0800 100 200 or submit a claim notification in the NxtInsure app. For emergencies, go directly to any network hospital — cashless treatment available.</p>
+          <span class="claim-tag">⚡ Instant pre-auth for emergencies</span>
+        </div>
+      </div>
+      <div class="claim-step slide-up">
+        <div class="claim-step-num">2</div>
+        <div class="claim-step-body">
+          <h4>Submit your documents</h4>
+          <p>Upload your medical reports, receipts, and discharge summary. Our team reviews documents within 4 working hours. You can track status in real time.</p>
+          <span class="claim-tag">📄 Upload via app or WhatsApp</span>
+        </div>
+      </div>
+      <div class="claim-step slide-up">
+        <div class="claim-step-num">3</div>
+        <div class="claim-step-body">
+          <h4>Claim assessed</h4>
+          <p>Our Uganda-based claims team reviews your case. For claims under UGX 500,000, auto-approval is triggered within 2 hours. Complex cases reviewed within 48 hours.</p>
+          <span class="claim-tag">92% approval rate</span>
+        </div>
+      </div>
+      <div class="claim-step slide-up">
+        <div class="claim-step-num">4</div>
+        <div class="claim-step-body">
+          <h4>Paid to your Airtel Money</h4>
+          <p>Approved claims are paid directly to your registered Airtel Money or bank account. Zero admin fees. You receive an SMS confirmation on payment.</p>
+          <span class="claim-tag">💰 Avg. payout in 48 hours</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="tab-panel" id="tab-reviews">
+    <div class="rating-summary slide-up">
+      <div class="big-score">4.8</div>
+      <div class="rating-details">
+        <div class="rating-bar-row">
+          <span style="width:14px">5</span>
+          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:78%"></div></div>
+          <span>78%</span>
+        </div>
+        <div class="rating-bar-row">
+          <span style="width:14px">4</span>
+          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:15%"></div></div>
+          <span>15%</span>
+        </div>
+        <div class="rating-bar-row">
+          <span style="width:14px">3</span>
+          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:5%"></div></div>
+          <span>5%</span>
+        </div>
+        <div class="rating-bar-row">
+          <span style="width:14px">2</span>
+          <div class="rating-bar-track"><div class="rating-bar-fill" style="width:2%"></div></div>
+          <span>2%</span>
+        </div>
+        <div style="font-size:12px;color:var(--ink-muted);margin-top:6px">Based on 312 verified reviews</div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card slide-up">
+        <div class="review-header">
+          <div class="reviewer-avatar">SM</div>
+          <div>
+            <div class="reviewer-name">Sarah M.</div>
+            <div class="reviewer-meta">Kampala · Verified Policy Holder · Jan 2026</div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <div class="review-text">My daughter was admitted at Nakasero Hospital and the cashless payment worked perfectly. No paperwork, no delays. The claim was settled before we even left the ward. Absolutely recommend J-Care Junior to every parent.</div>
+      </div>
+      <div class="review-card slide-up">
+        <div class="review-header">
+          <div class="reviewer-avatar" style="background:#7C3AED">DK</div>
+          <div>
+            <div class="reviewer-name">David K.</div>
+            <div class="reviewer-meta">Entebbe · Verified Policy Holder · Feb 2026</div>
+          </div>
+          <div class="review-stars">★★★★★</div>
+        </div>
+        <div class="review-text">Paying UGX 400 a day via Airtel Money makes this so affordable. Signed up in 3 minutes on my phone. When my son needed an emergency, Jubilee's team picked up in 2 rings. Top tier service.</div>
+      </div>
+      <div class="review-card slide-up">
+        <div class="review-header">
+          <div class="reviewer-avatar" style="background:#059669">AN</div>
+          <div>
+            <div class="reviewer-name">Aisha N.</div>
+            <div class="reviewer-meta">Jinja · Verified Policy Holder · Mar 2026</div>
+          </div>
+          <div class="review-stars">★★★★☆</div>
+        </div>
+        <div class="review-text">Very happy with the cover overall. One OPD claim took a bit longer than expected — 3 days instead of 48 hours — but the team communicated well. Great value for the price compared to other plans I checked.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="tab-panel" id="tab-documents">
+    <div class="section-head slide-up">Policy documents</div>
+    <div class="docs-list">
+      <div class="doc-item slide-up">
+        <div class="doc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="doc-name">Policy Wording — J-Care Junior</div>
+          <div class="doc-size">PDF · 1.2 MB · Updated Jan 2026</div>
+        </div>
+        <div class="doc-download">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+      </div>
+      <div class="doc-item slide-up">
+        <div class="doc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="doc-name">Benefits Schedule &amp; Limits</div>
+          <div class="doc-size">PDF · 380 KB · Updated Jan 2026</div>
+        </div>
+        <div class="doc-download">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+      </div>
+      <div class="doc-item slide-up">
+        <div class="doc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="doc-name">Network Hospitals List — Uganda</div>
+          <div class="doc-size">PDF · 560 KB · Updated Mar 2026</div>
+        </div>
+        <div class="doc-download">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+      </div>
+      <div class="doc-item slide-up">
+        <div class="doc-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <div class="doc-name">Claims Guide &amp; Forms</div>
+          <div class="doc-size">PDF · 210 KB · Updated Feb 2026</div>
+        </div>
+        <div class="doc-download">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:48px"></div>
+</div>
+
+<!-- MOBILE STICKY BAR -->
+<div class="mobile-sticky-bar">
+  <div>
+    <div class="sticky-price">UGX 12,000</div>
+    <div class="sticky-unit">/month</div>
+  </div>
+  <button class="sticky-cta" onclick="openModal()">Get Covered &rarr;</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+
+    <div id="modalForm">
+      <div class="modal-title">Get J-Care Junior</div>
+      <div class="modal-subtitle">Covers 1 child · UGX 12,000/month · Starts today</div>
+      <div class="modal-form">
+        <div class="form-group">
+          <label class="form-label">Child's full name</label>
+          <input class="form-input" type="text" placeholder="e.g. Aisha Nakato" id="childName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date of birth</label>
+          <input class="form-input" type="date" id="dob">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parent / Guardian name</label>
+          <input class="form-input" type="text" placeholder="Your full name" id="guardianName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Airtel Money number</label>
+          <input class="form-input" type="tel" placeholder="+256 700 000 000" id="phoneNum">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Payment frequency</label>
+          <select class="form-select" id="payFreq">
+            <option value="monthly">Monthly — UGX 12,000</option>
+            <option value="daily">Daily — UGX 400/day</option>
+            <option value="annual">Annual — UGX 132,000 (save 8%)</option>
+          </select>
+        </div>
+        <button class="modal-submit" onclick="submitQuote()">Activate Cover &rarr;</button>
+      </div>
+    </div>
+
+    <div class="success-state" id="successState">
+      <div class="success-icon">✓</div>
+      <div class="success-title">You're covered!</div>
+      <div class="success-sub">J-Care Junior is now active. Check your Airtel Money SMS for confirmation. Policy documents sent to your phone.</div>
+      <button class="get-covered-btn" style="margin-top:24px;border-radius:8px;padding:14px 28px;width:auto" onclick="closeModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTheme(theme) {
+  document.documentElement.setAttribute('data-partner', theme);
+  localStorage.setItem('nxtinsure_partner', theme);
+  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-theme="${theme}"]`)?.classList.add('active');
+}
+function initTheme() {
+  const saved = localStorage.getItem('nxtinsure_partner') || 'nxtinsure';
+  switchTheme(saved);
+}
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-pill').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  // re-trigger animations
+  document.querySelectorAll('#tab-' + name + ' .slide-up').forEach((el, i) => {
+    el.classList.remove('in');
+    setTimeout(() => el.classList.add('in'), i * 60);
+  });
+}
+function openModal() {
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    document.getElementById('modalForm').style.display = 'block';
+    document.getElementById('successState').classList.remove('show');
+  }, 300);
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+function submitQuote() {
+  const name = document.getElementById('childName').value;
+  const phone = document.getElementById('phoneNum').value;
+  if (!name || !phone) { alert('Please fill in child name and phone number.'); return; }
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('successState').classList.add('show');
+}
+
+// Intersection observer
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, idx) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('in'), idx * 60);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.slide-up').forEach(el => io.observe(el));
+
+initTheme();
+</script>
+</body>
+</html>
